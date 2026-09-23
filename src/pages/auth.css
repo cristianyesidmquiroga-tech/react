@@ -1,0 +1,46 @@
+.acceso {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: var(--espacio-4);
+  background:
+    radial-gradient(circle at 15% 10%, var(--color-primario-suave), transparent 45%),
+    var(--color-fondo);
+}
+
+.acceso__tarjeta {
+  display: grid;
+  gap: var(--espacio-5);
+  width: 100%;
+  max-width: 420px;
+  padding: var(--espacio-6) var(--espacio-5);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-lg);
+  background: var(--color-superficie);
+  box-shadow: var(--sombra-md);
+}
+
+.acceso__marca {
+  display: flex;
+  gap: var(--espacio-3);
+  align-items: center;
+  color: var(--color-primario);
+}
+
+.acceso__marca h1 {
+  font-size: var(--texto-xl);
+}
+
+.acceso__marca p {
+  color: var(--color-texto-suave);
+  font-size: var(--texto-sm);
+}
+
+.campo-clave {
+  display: flex;
+  gap: var(--espacio-1);
+}
+
+.campo-clave input {
+  flex: 1;
+}
