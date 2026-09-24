@@ -7,6 +7,10 @@ import Navbar from './Navbar'
 import Sidebar from './Sidebar'
 
 const TITULOS = {
+  '/porteria/panel': 'Panel General',
+  '/porteria/escaner': 'Escáner',
+  '/porteria/pases': 'Pases Manuales',
+  '/historial': 'Historial de Ingresos',
   '/perfil': 'Mi Perfil',
   '/admin/usuarios': 'Gestión de Perfiles',
   '/admin/fotos': 'Revisión de Fotos',
@@ -46,7 +50,7 @@ export default function MainLayout() {
       <div className={`sidebar-overlay${menuAbierto ? ' active' : ''}`} onClick={() => setMenuAbierto(false)} aria-hidden="true" />
       <Sidebar abierto={menuAbierto} onCerrar={() => setMenuAbierto(false)} />
       <div className="main-wrapper">
-        <Navbar titulo={TITULOS[pathname] || 'Portería SENA'} menuAbierto={menuAbierto} onAbrirMenu={() => setMenuAbierto(true)} />
+        <Navbar titulo={TITULOS[pathname] || (pathname.startsWith('/porteria/reportes/') ? 'Reporte de Usuarios' : 'Portería SENA')} menuAbierto={menuAbierto} onAbrirMenu={() => setMenuAbierto(true)} />
         <main id="contenido" ref={contenido} className="content-area animate-in" tabIndex={-1}>
           {usuario && !usuario.perfilCompleto && pathname !== '/perfil' && (
             <div className="aviso-sistema aviso-sistema--peligro">

@@ -134,3 +134,30 @@
 }
 
 /* Nota: Estilos de .kiosk-input ahora son globales en global.css */
+
+.device-list {
+    list-style: none;
+    padding: 0;
+}
+
+.device-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.device-icono {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+}
+
+.device-borrar {
+    margin-left: auto;
+    border: none;
+    background: transparent;
+    color: #c62828;
+    font-size: 1.1rem;
+    cursor: pointer;
+}

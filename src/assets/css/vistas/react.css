@@ -617,3 +617,164 @@
         transition-duration: 0.01ms !important;
     }
 }
+
+/* Pases */
+.pases-rejilla {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.pases-formulario {
+    flex: 1;
+    min-width: 280px;
+    max-width: 400px;
+    padding: 2rem;
+}
+
+.tabla-pases {
+    flex: 2;
+    min-width: 0;
+}
+
+.celda-vacia {
+    text-align: center;
+    padding: 2rem !important;
+    color: var(--text-muted);
+}
+
+.dato-secundario {
+    display: block;
+    color: var(--text-muted);
+}
+
+.dato-destacado {
+    display: block;
+    color: var(--secondary-text);
+    font-size: 1.05rem;
+}
+
+.caja-barras {
+    background: #ffffff;
+    padding: 1.25rem;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.caja-barras svg {
+    width: 100%;
+    height: auto;
+}
+
+.texto-mayusculas {
+    text-transform: uppercase;
+}
+
+/* Historial de ingresos */
+.historial-filtros {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 1.5rem;
+}
+
+.historial-filtros__campos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+.historial-filtros__ancho {
+    grid-column: span 2;
+}
+
+.historial-filtros__enviar {
+    width: auto;
+    margin: 1rem 0 0 auto;
+}
+
+.historial-bloque {
+    max-width: 980px;
+    margin: 1.5rem auto;
+    padding: 1.5rem;
+}
+
+.historial-persona {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.historial-persona h2 {
+    margin: 0;
+    font-size: 1.3rem;
+}
+
+.historial-persona__foto {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.historial-kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.historial-kpi {
+    padding: 1rem;
+    border-radius: 14px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+}
+
+.historial-kpi strong {
+    display: block;
+    font-size: 1.6rem;
+}
+
+.historial-kpi small {
+    color: var(--glass-subtext);
+}
+
+.historial-kpi--verde strong { color: var(--primary-text-color); }
+.historial-kpi--rojo strong { color: var(--danger-color); }
+.historial-kpi--azul strong { color: #1565c0; }
+
+.historial-nota {
+    color: var(--glass-subtext);
+    margin-bottom: 1rem;
+}
+
+.historial-nota--aviso {
+    color: var(--warning-color);
+}
+
+.historial-centro {
+    max-width: 980px;
+    margin: 1.5rem auto 0;
+    text-align: center;
+}
+
+.etiqueta-equipo {
+    display: inline-block;
+    margin: 2px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+}
+
+@media (max-width: 600px) {
+    .historial-filtros__ancho { grid-column: auto; }
+}
+
+a.glass-btn {
+    text-decoration: none;
+}

@@ -60,7 +60,8 @@ async function peticion(ruta, { metodo = 'GET', cuerpo, formulario, respuesta = 
 function consulta(parametros) {
   const busqueda = new URLSearchParams()
   Object.entries(parametros).forEach(([clave, valor]) => {
-    if (valor !== undefined && valor !== null && valor !== '') busqueda.set(clave, valor)
+    if (Array.isArray(valor)) valor.forEach((v) => busqueda.append(clave, v))
+    else if (valor !== undefined && valor !== null && valor !== '') busqueda.set(clave, valor)
   })
   const texto = busqueda.toString()
   return texto ? `?${texto}` : ''
@@ -101,4 +102,36 @@ export const adminService = {
   fotosPendientes: () => peticion('/admin/fotos/pendientes'),
   revisarFoto: (usuarioId, aprobada, motivo) =>
     peticion(`/admin/fotos/${usuarioId}/revision`, { metodo: 'POST', cuerpo: { aprobada, motivo } }),
+}
+
+export const equipoService = {
+  listar: (signal) => peticion('/equipos', { signal }),
+  registrar: (datos) => peticion('/equipos', { metodo: 'POST', cuerpo: datos }),
+  eliminar: (id) => peticion(`/equipos/${id}`, { metodo: 'DELETE' }),
+}
+
+export const porteriaService = {
+  verificar: (codigo) => peticion(`/porteria/verificar${consulta({ codigo })}`),
+  registrarMovimiento: (datos) => peticion('/porteria/movimientos', { metodo: 'POST', cuerpo: datos }),
+  registrarIncidente: (datos) => peticion('/porteria/incidentes', { metodo: 'POST', cuerpo: datos }),
+}
+
+export const paseService = {
+  listar: (signal) => peticion('/porteria/pases', { signal }),
+  registrarVisitante: (datos) => peticion('/porteria/pases/visitantes', { metodo: 'POST', cuerpo: datos }),
+  registrarVehiculo: (datos) => peticion('/porteria/pases/vehiculos', { metodo: 'POST', cuerpo: datos }),
+  registrarObjeto: (datos) => peticion('/porteria/pases/objetos', { metodo: 'POST', cuerpo: datos }),
+  actualizarObjeto: (id, datos) => peticion(`/porteria/pases/objetos/${id}`, { metodo: 'PUT', cuerpo: datos }),
+  desactivarObjeto: (id) => peticion(`/porteria/pases/objetos/${id}/desactivar`, { metodo: 'POST' }),
+}
+
+export const panelService = {
+  obtener: (signal) => peticion('/porteria/panel', { signal }),
+  accesos: (filtros, signal) => peticion(`/porteria/panel/accesos${consulta(filtros)}`, { signal }),
+  exportar: (filtros) => peticion(`/porteria/panel/exportar${consulta(filtros)}`, { respuesta: 'blob' }),
+  reporte: (cargo, signal) => peticion(`/porteria/panel/reportes/${encodeURIComponent(cargo)}`, { signal }),
+}
+
+export const historialService = {
+  consultar: (filtros, signal) => peticion(`/historial${consulta(filtros)}`, { signal }),
 }

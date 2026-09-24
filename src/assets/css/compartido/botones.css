@@ -63,7 +63,12 @@
 .btn-outline {
     background: transparent;
     border: 1px solid var(--glass-border);
-    color: white;
+    color: var(--text-main);
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     padding: 10px 20px;
     border-radius: 12px;
     transition: var(--transition);

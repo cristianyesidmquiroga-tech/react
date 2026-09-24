@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import CarnetDigital from '../components/CarnetDigital'
+import { ListaEquipos, NuevoEquipo } from '../components/MisEquipos'
 import Campo from '../components/ui/Campo'
 import Insignia from '../components/ui/Insignia'
 import Skeleton from '../components/ui/Skeleton'
@@ -30,7 +31,7 @@ function aFormulario(p) {
 }
 
 export default function PerfilPage() {
-  const { refrescarUsuario } = useAuth()
+  const { usuario, refrescarUsuario } = useAuth()
   const { notificar } = useNotificacion()
   const [perfil, setPerfil] = useState(null)
   const [carnet, setCarnet] = useState(null)
@@ -143,6 +144,26 @@ export default function PerfilPage() {
         >
           <i className="fas fa-user-edit" aria-hidden="true" /> Información
         </button>
+        {usuario?.permisos?.registrarEquipos && (
+          <>
+            <button
+              type="button"
+              className="btn-action gradient-green stagger-item magnetic-btn"
+              aria-pressed={seccion === 'equipos'}
+              onClick={() => setSeccion('equipos')}
+            >
+              <i className="fas fa-laptop" aria-hidden="true" /> Mis Equipos
+            </button>
+            <button
+              type="button"
+              className="btn-action gradient-orange stagger-item magnetic-btn"
+              aria-pressed={seccion === 'nuevo-equipo'}
+              onClick={() => setSeccion('nuevo-equipo')}
+            >
+              <i className="fas fa-plus-circle" aria-hidden="true" /> Añadir Equipos
+            </button>
+          </>
+        )}
       </div>
 
       <div className="profile-split-layout">
@@ -162,13 +183,16 @@ export default function PerfilPage() {
         </div>
 
         <div className="right-wing">
-          {seccion !== 'info' ? (
+          {seccion === 'equipos' && <ListaEquipos />}
+          {seccion === 'nuevo-equipo' && <NuevoEquipo onGuardado={() => setSeccion('equipos')} />}
+          {!seccion && (
             <div className="glass-card perfil-bienvenida">
               <i className="fas fa-fingerprint" aria-hidden="true" />
               <h2 className="text-3d">Centro de Gestión</h2>
-              <p>Selecciona una acción arriba para gestionar tus datos.</p>
+              <p>Selecciona una acción arriba para gestionar tus datos o equipos vinculados.</p>
             </div>
-          ) : (
+          )}
+          {seccion === 'info' && (
             <section className="glass-card perfil-seccion" aria-labelledby="titulo-datos">
               <h2 id="titulo-datos" className="text-3d perfil-seccion__titulo">
                 <img src={logoSena} alt="" /> Actualizar Datos

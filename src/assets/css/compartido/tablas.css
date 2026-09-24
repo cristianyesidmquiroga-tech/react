@@ -1,7 +1,8 @@
 /* Tabs for Dashboard/History */
 .top-tabs {
-    display: flex; gap: 2rem; margin-bottom: 2rem; border-bottom: 1px solid #EAEAEA; padding-bottom: 0.5rem;
+    display: flex; gap: 2rem; margin-bottom: 2rem; border-bottom: 1px solid #EAEAEA; padding-bottom: 0.7rem;
     overflow-x: auto;
+    overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
 }
 .tab-btn {
