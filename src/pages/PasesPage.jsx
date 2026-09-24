@@ -1,5 +1,4 @@
-import { useActionState, useEffect, useRef, useState } from 'react'
-import JsBarcode from 'jsbarcode'
+import { useActionState, useEffect, useState } from 'react'
 import Campo from '../components/ui/Campo'
 import Modal from '../components/ui/Modal'
 import Skeleton from '../components/ui/Skeleton'
@@ -16,21 +15,29 @@ const PESTANAS = [
 
 const texto = (formulario, campo) => String(formulario.get(campo) || '').trim() || null
 
+// El código Code128 lo dibuja la API; aquí solo se muestra como imagen
 function CodigoPase({ pase, onCerrar }) {
-  const svg = useRef(null)
+  const [url, setUrl] = useState(null)
 
   useEffect(() => {
-    if (pase && svg.current) {
-      JsBarcode(svg.current, pase.codigo, { format: 'CODE128', height: 110, margin: 10, displayValue: true, fontSize: 14 })
+    if (!pase) return undefined
+    let creada = null
+    paseService
+      .codigo(pase.codigo)
+      .then((svg) => {
+        creada = URL.createObjectURL(svg)
+        setUrl(creada)
+      })
+      .catch(() => setUrl(null))
+    return () => {
+      if (creada) URL.revokeObjectURL(creada)
     }
   }, [pase])
 
   return (
     <Modal abierto={Boolean(pase)} onCerrar={onCerrar} titulo={pase?.titulo || 'Pase de acceso'} ancho="sm">
       <p className="texto-ayuda">Toma una foto o imprime este código. El escáner de portería lo lee directamente.</p>
-      <div className="caja-barras">
-        <svg ref={svg} role="img" aria-label={`Código ${pase?.codigo}`} />
-      </div>
+      <div className="caja-barras">{url && <img src={url} alt={`Código ${pase?.codigo}`} />}</div>
       <button type="button" className="glass-btn btn-glow boton-bloque" onClick={() => window.print()}>
         <i className="fas fa-print" aria-hidden="true" /> Imprimir pase
       </button>

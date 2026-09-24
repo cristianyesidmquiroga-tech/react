@@ -17,8 +17,10 @@ const hora = (texto) => (texto ? new Date(texto).toLocaleTimeString('es-CO', { h
 const permanencia = (min) => (min == null ? '—' : `${Math.floor(min / 60)} h ${String(min % 60).padStart(2, '0')} m`)
 const plural = (n, palabra) => `${n} ${palabra}${n === 1 ? '' : 's'}`
 
+const faltasDe = (r, dia) => `${r.detalleDiasSemana[dia].faltas} de ${r.detalleDiasSemana[dia].oportunidades}`
+
 function DiaMasFaltado({ r }) {
-  if (r.diaMasFaltado) return `Día que más falta (${r.faltasPorDia[r.diaMasFaltado]} faltas)`
+  if (r.diaMasFaltado) return `Día que más falta (${faltasDe(r, r.diaMasFaltado)})`
   if (r.motivoSinDia === 'empate') return `Sin día destacado: empatan ${r.diasEmpatados.join(', ')}`
   if (r.motivoSinDia === 'sin_faltas') return 'Sin faltas en el periodo evaluado'
   return 'Periodo demasiado corto para afirmar un patrón'
@@ -26,7 +28,7 @@ function DiaMasFaltado({ r }) {
 
 function BloquePersona({ bloque }) {
   const r = bloque.resumen
-  const faltas = Object.entries(r.faltasPorDia || {}).filter(([, n]) => n > 0)
+  const faltas = Object.keys(r.faltasPorDia || {})
   const indicadores = [
     [r.diasAsistidos, 'Días asistidos', 'historial-kpi--verde'],
     [r.diasFaltados, `Días sin registro (de ${r.diasEsperados})`, 'historial-kpi--rojo'],
@@ -77,7 +79,7 @@ function BloquePersona({ bloque }) {
       )}
       {faltas.length > 0 && (
         <p className="historial-nota">
-          <i className="fas fa-calendar-times" aria-hidden="true" /> Faltas por día: {faltas.map(([dia, n]) => `${dia} (${n})`).join(' · ')}
+          <i className="fas fa-calendar-times" aria-hidden="true" /> Faltas por día: {faltas.map((dia) => `${dia} (${faltasDe(r, dia)})`).join(' · ')}
         </p>
       )}
       {r.sinSalida > 0 && (
@@ -109,7 +111,12 @@ function BloquePersona({ bloque }) {
             <tbody>
               {[...bloque.movimientos].reverse().map((m, i) => (
                 <tr key={i}>
-                  <td>{fecha(m.fecha)}</td>
+                  <td>
+                    {fecha(m.fecha)}
+                    {m.entrada && m.salida && m.salida.slice(0, 10) !== m.entrada.slice(0, 10) && (
+                      <small className="dato-secundario">al {fecha(m.salida.slice(0, 10))}</small>
+                    )}
+                  </td>
                   <td className="text-entrada">
                     {hora(m.entrada)}
                     {m.entradaFueraDeVentana && <small className="dato-secundario">entrada anterior al periodo</small>}

@@ -26,6 +26,8 @@ export default function CambioContrasenaPage() {
   const [enviando, setEnviando] = useState(false)
 
   if (!usuario) return <Navigate to="/login" replace />
+  // Esta pantalla solo cambia la contraseña temporal; la API responde 403 a quien no la tiene
+  if (!usuario.debeCambiarContrasena) return <Navigate to="/perfil" replace />
 
   const cambiar = (e) => setDatos((d) => ({ ...d, [e.target.name]: e.target.value }))
   const { permisos = {} } = usuario
@@ -58,10 +60,8 @@ export default function CambioContrasenaPage() {
               Seguridad Institucional
             </h1>
             <p>
-              Hola <strong>{usuario.nombre}</strong>,{' '}
-              {usuario.debeCambiarContrasena
-                ? 'por normativas de seguridad del SENA, debes cambiar la contraseña temporal que te enviamos por una personal y secreta.'
-                : 'crea una contraseña nueva para tu cuenta.'}
+              Hola <strong>{usuario.nombre}</strong>, por normativas de seguridad del SENA, debes cambiar la contraseña temporal
+              que te enviamos por una personal y secreta.
             </p>
           </div>
 

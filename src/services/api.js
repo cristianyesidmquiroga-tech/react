@@ -1,6 +1,9 @@
 const BASE_URL = import.meta.env.VITE_API_URL || '/api'
 const CLAVE_TOKEN = 'jwt_token'
 
+// Siluetas por cargo o tipo de pase; no son datos personales y no piden sesión
+export const avatarUrl = (cargo) => `${BASE_URL}/avatares/${encodeURIComponent(cargo || 'generico')}`
+
 export const sesionGuardada = {
   leer: () => localStorage.getItem(CLAVE_TOKEN),
   guardar: (token) => localStorage.setItem(CLAVE_TOKEN, token),
@@ -99,7 +102,7 @@ export const adminService = {
   eliminarUsuario: (id, autorizacion) =>
     peticion(`/admin/usuarios/${id}`, { metodo: 'DELETE', cuerpo: autorizacion }),
   desbloquear: (id) => peticion(`/admin/usuarios/${id}/desbloquear`, { metodo: 'POST' }),
-  fotosPendientes: () => peticion('/admin/fotos/pendientes'),
+  fotos: ({ estado, pagina }, signal) => peticion(`/admin/fotos${consulta({ estado, pagina })}`, { signal }),
   revisarFoto: (usuarioId, aprobada, motivo) =>
     peticion(`/admin/fotos/${usuarioId}/revision`, { metodo: 'POST', cuerpo: { aprobada, motivo } }),
 }
@@ -118,6 +121,7 @@ export const porteriaService = {
 
 export const paseService = {
   listar: (signal) => peticion('/porteria/pases', { signal }),
+  codigo: (texto) => peticion(`/porteria/pases/codigo${consulta({ texto })}`, { respuesta: 'blob' }),
   registrarVisitante: (datos) => peticion('/porteria/pases/visitantes', { metodo: 'POST', cuerpo: datos }),
   registrarVehiculo: (datos) => peticion('/porteria/pases/vehiculos', { metodo: 'POST', cuerpo: datos }),
   registrarObjeto: (datos) => peticion('/porteria/pases/objetos', { metodo: 'POST', cuerpo: datos }),

@@ -162,7 +162,7 @@
     padding: 4px 10px;
 }
 
-.carnet-of-barras-caja svg {
+.carnet-of-barras-caja img {
     display: block;
     width: 100%;
     height: 68px;
@@ -287,7 +287,7 @@
         padding-left: 16px;
         padding-right: 16px;
     }
-    .carnet-of-barras-caja svg {
+    .carnet-of-barras-caja img {
         height: 76px;
     }
     .carnet-aviso,

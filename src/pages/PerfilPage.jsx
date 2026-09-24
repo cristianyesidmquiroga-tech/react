@@ -224,12 +224,12 @@ export default function PerfilPage() {
               </div>
 
               <div className="floating-group">
-                <input ref={entradaFoto} id="foto" type="file" accept="image/jpeg,image/png,image/bmp" onChange={elegirFoto} aria-describedby="ayuda-foto" />
+                <input ref={entradaFoto} id="foto" type="file" accept="image/jpeg,image/png,image/webp" onChange={elegirFoto} aria-describedby="ayuda-foto" />
                 <label htmlFor="foto">Foto de Perfil</label>
                 <div className="floating-border" />
               </div>
               <p id="ayuda-foto" className="texto-ayuda">
-                Formatos: JPG, PNG o BMP. Máximo 8 MB.
+                Formatos: JPG, PNG o WEBP. Máximo 8 MB.
               </p>
               {vistaPrevia && (
                 <div className="foto-previa">

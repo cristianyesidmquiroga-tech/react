@@ -1,15 +1,13 @@
 import { useActionState, useCallback, useEffect, useRef, useState } from 'react'
 import { Html5Qrcode, Html5QrcodeSupportedFormats } from 'html5-qrcode'
-import { avatarDeCargo } from '../components/ui/FotoUsuario'
 import { useNotificacion } from '../context/NotificationContext'
 import { useFotoProtegida } from '../hooks/useFotoProtegida'
-import { porteriaService } from '../services/api'
+import { avatarUrl, porteriaService } from '../services/api'
 
 const ID_LECTOR = 'reader'
 // Recuadro ancho y bajo para códigos de barras
 const recuadroBarras = (ancho, alto) => ({ width: Math.floor(ancho * 0.9), height: Math.min(Math.max(80, Math.floor(alto * 0.35)), alto) })
 const CONFIG_LECTOR = { fps: 20, qrbox: recuadroBarras }
-const AVATAR_ENTIDAD = { Visitante: 'Visitante', Vehiculo: 'Vehiculo', ObjetoExterno: 'Objeto' }
 
 function camaraTrasera(camaras) {
   return camaras.find((c) => /back|trasera|rear/i.test(c.label)) || camaras[0]
@@ -117,7 +115,7 @@ function Resultado({ datos, onRegistrado, onVolver }) {
       </div>
 
       <img
-        src={foto || avatarDeCargo(AVATAR_ENTIDAD[datos.tipo] || datos.cargo)}
+        src={foto || avatarUrl(datos.tipo === 'Usuario' ? datos.cargo : datos.tipo)}
         alt={`Foto o avatar de ${datos.nombre}`}
         className="result-photo"
         width="200"

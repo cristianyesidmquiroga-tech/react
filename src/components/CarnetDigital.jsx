@@ -1,30 +1,8 @@
-import { useEffect, useRef } from 'react'
-import JsBarcode from 'jsbarcode'
 import logoSena from '../assets/img/logoSena.png'
-import { avatarDeCargo } from './ui/FotoUsuario'
+import { avatarUrl } from '../services/api'
 
-// Datos del centro, configurables por .env
-const REGIONAL = import.meta.env.VITE_CARNET_REGIONAL || 'Regional Santander'
-const CENTRO = import.meta.env.VITE_CARNET_CENTRO || 'Centro de Gestión Agroempresarial del Oriente'
-const ASEGURADORA = import.meta.env.VITE_CARNET_ASEGURADORA || ''
-const ASEGURADORA_TEL = import.meta.env.VITE_CARNET_ASEGURADORA_TEL || ''
-const POLIZA = import.meta.env.VITE_CARNET_POLIZA || ''
-
-// Formato oficial del SENA; el código de barras es Code128 del documento
+// Formato oficial del SENA; el código de barras Code128 lo dibuja la API
 export default function CarnetDigital({ carnet, fotoUrl, cargo }) {
-  const barras = useRef(null)
-
-  useEffect(() => {
-    if (!carnet?.codigoBarras || !barras.current) return
-    JsBarcode(barras.current, carnet.codigoBarras, {
-      format: 'CODE128',
-      displayValue: false,
-      height: 60,
-      margin: 0,
-      background: 'transparent',
-    })
-  }, [carnet?.codigoBarras])
-
   if (!carnet) return null
   const aprendiz = carnet.perfil === 'APRENDIZ'
   const [abreviatura, ...numero] = (carnet.documento || '').split(' ')
@@ -34,7 +12,7 @@ export default function CarnetDigital({ carnet, fotoUrl, cargo }) {
       <div className="carnet-of-cabecera">
         <img className="carnet-of-logo" src={logoSena} alt="SENA" width="64" height="64" />
         <div className="carnet-of-foto">
-          <img src={fotoUrl || avatarDeCargo(cargo)} alt={`Fotografía de ${carnet.nombres}`} width="120" height="150" decoding="async" />
+          <img src={fotoUrl || avatarUrl(cargo)} alt={`Fotografía de ${carnet.nombres}`} width="120" height="150" decoding="async" />
         </div>
       </div>
 
@@ -74,11 +52,11 @@ export default function CarnetDigital({ carnet, fotoUrl, cargo }) {
         )}
       </dl>
 
-      {aprendiz && ASEGURADORA && (
+      {carnet.aseguradora && (
         <div className="carnet-of-poliza">
-          <p>{ASEGURADORA}</p>
-          {ASEGURADORA_TEL && <p>Tel: {ASEGURADORA_TEL}</p>}
-          {POLIZA && <p>Póliza No. {POLIZA}</p>}
+          <p>{carnet.aseguradora}</p>
+          {carnet.aseguradoraTel && <p>Tel: {carnet.aseguradoraTel}</p>}
+          {carnet.poliza && <p>Póliza No. {carnet.poliza}</p>}
         </div>
       )}
 
@@ -86,7 +64,10 @@ export default function CarnetDigital({ carnet, fotoUrl, cargo }) {
         {carnet.activo ? (
           <>
             <div className="carnet-of-barras-caja">
-              <svg ref={barras} role="img" aria-label={`Código de barras ${carnet.codigoBarras}`} />
+              <img
+                src={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(carnet.codigoBarrasSvg)}`}
+                alt={`Código de barras ${carnet.codigoBarras}`}
+              />
             </div>
             <span className="carnet-of-barras-texto">{carnet.codigoBarras}</span>
           </>
@@ -98,8 +79,8 @@ export default function CarnetDigital({ carnet, fotoUrl, cargo }) {
       </div>
 
       <div className="carnet-of-pie">
-        <strong>{REGIONAL}</strong>
-        <em>{CENTRO}</em>
+        <strong>{carnet.regional}</strong>
+        <em>{carnet.centro}</em>
       </div>
     </div>
   )

@@ -23,7 +23,13 @@ export function useTilt(contenedorRef) {
     observador.observe(raiz, { childList: true, subtree: true })
     return () => {
       observador.disconnect()
-      raiz.querySelectorAll('.card, .stat-card, .glass-card').forEach((el) => el.vanillaTilt?.destroy())
+      raiz.querySelectorAll('.card, .stat-card, .glass-card').forEach((el) => {
+        const tilt = el.vanillaTilt
+        if (!tilt) return
+        tilt.destroy()
+        // destroy() vuelve a programar este temporizador, que fallaría con el elemento ya borrado
+        clearTimeout(tilt.transitionTimeout)
+      })
     }
   }, [contenedorRef])
 }

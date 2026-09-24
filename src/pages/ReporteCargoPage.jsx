@@ -125,7 +125,7 @@ export default function ReporteCargoPage() {
               <thead>
                 <tr>
                   <th scope="col">Nombre y Documento</th>
-                  <th scope="col">{esAprendiz ? 'Programa' : 'Área'}</th>
+                  <th scope="col">{esAprendiz ? 'Programa' : cargo === 'Personal' ? 'Cargo' : 'Área'}</th>
                   <th scope="col">Ficha</th>
                   <th scope="col">Hora Ingreso</th>
                 </tr>

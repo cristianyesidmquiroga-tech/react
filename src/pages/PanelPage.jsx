@@ -220,7 +220,7 @@ function HistorialAccesos({ cargos, fichas }) {
                         <div className="celda-persona">
                           <FotoUsuario
                             usuarioId={a.tieneFoto ? a.referenciaId : null}
-                            cargo={a.tipoReferencia === 'Usuario' ? a.clase : rol}
+                            cargo={a.tipoReferencia === 'Usuario' ? a.clase : a.tipoReferencia}
                             alt={`Foto de ${a.nombre}`}
                             className={`role-img role-border-${rol}`}
                             loading="lazy"

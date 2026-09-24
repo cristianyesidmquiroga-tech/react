@@ -662,7 +662,7 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-.caja-barras svg {
+.caja-barras img {
     width: 100%;
     height: auto;
 }
@@ -777,4 +777,44 @@
 
 a.glass-btn {
     text-decoration: none;
+}
+
+.filtros-estado {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+}
+
+.filtro-estado {
+    padding: 0.45rem 1rem;
+    font-size: 0.87rem;
+    font-weight: 600;
+    border-radius: 999px;
+    border: 1px solid var(--glass-border);
+    background: transparent;
+    color: var(--text-main);
+    cursor: pointer;
+}
+
+.filtro-estado--activo {
+    border-color: #2d8500;
+    background: #2d8500;
+    color: #fff;
+}
+
+.estado-foto {
+    font-size: 0.84rem;
+    padding: 0.6rem 0.8rem;
+    border-radius: 9px;
+    background: rgba(231, 76, 60, 0.1);
+}
+
+.estado-foto--aprobada {
+    background: rgba(57, 169, 0, 0.1);
+}
+
+.estado-foto p {
+    margin: 0.4rem 0 0;
+    color: var(--text-muted);
 }

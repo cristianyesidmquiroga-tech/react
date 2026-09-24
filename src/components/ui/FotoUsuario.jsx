@@ -1,14 +1,8 @@
 import { useFotoProtegida } from '../../hooks/useFotoProtegida'
+import { avatarUrl } from '../../services/api'
 
-const AVATARES = import.meta.glob('../../assets/img/perfiles/*.svg', { eager: true, import: 'default' })
-
-// Sin foto se muestra la silueta del cargo
-export function avatarDeCargo(cargo) {
-  const nombre = (cargo || '').toLowerCase()
-  return AVATARES[`../../assets/img/perfiles/${nombre}.svg`] || AVATARES['../../assets/img/perfiles/generico.svg']
-}
-
+// Sin foto propia la API devuelve la silueta del cargo; mientras carga se muestra la misma silueta
 export default function FotoUsuario({ usuarioId, cargo, version, alt, ...props }) {
   const foto = useFotoProtegida(usuarioId, version)
-  return <img src={foto || avatarDeCargo(cargo)} alt={alt} decoding="async" {...props} />
+  return <img src={foto || avatarUrl(cargo)} alt={alt} decoding="async" {...props} />
 }

@@ -14,7 +14,7 @@ const ENLACES = [
 const REPORTES = [
   ['Aprendiz', 'Aprendices'],
   ['Instructor', 'Instructores'],
-  ['Administrativo', 'Personal Admin'],
+  ['Personal', 'Personal Admin'],
 ]
 
 export default function Sidebar({ abierto, onCerrar }) {
