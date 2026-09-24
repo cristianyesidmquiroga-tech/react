@@ -6,8 +6,7 @@ const OPCIONES = [
   ['.glass-card:not(.carnet-card)', { max: 3, speed: 400, glare: true, 'max-glare': 0.2 }],
 ]
 
-// Inclinación de tarjetas de Portería 2. Las vistas pintan tarjetas después de pedir datos,
-// por eso se vigila el contenedor y se aplica a las que van apareciendo.
+// Aplica la inclinación también a las tarjetas que aparecen después de cargar datos
 export function useTilt(contenedorRef) {
   useEffect(() => {
     const raiz = contenedorRef.current

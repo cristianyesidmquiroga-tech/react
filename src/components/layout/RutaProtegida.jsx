@@ -2,7 +2,7 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import logoSena from '../../assets/img/logoSena.png'
 
-// La API es quien decide los permisos; esto solo evita mostrar pantallas que igual responderían 403
+// Los permisos reales los valida la API
 export default function RutaProtegida({ permiso }) {
   const { usuario, cargando } = useAuth()
   const { pathname } = useLocation()

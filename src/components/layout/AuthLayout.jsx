@@ -1,6 +1,6 @@
 import { BotonTema } from './Navbar'
 
-// Pantallas sin sesión completa (login, cambio obligatorio): sin menú, con el botón de tema flotante
+// Login y cambio de contraseña: sin menú lateral
 export default function AuthLayout({ children }) {
   return (
     <>

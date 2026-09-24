@@ -1,9 +1,3 @@
-/* === CARNET INSTITUCIONAL (formato oficial impreso del SENA) ===
-   El carnet se pinta SIEMPRE en blanco con texto negro, en los dos temas.
-   No es una decisión estética: el celador lee el código de barras desde la
-   pantalla del móvil, y un fondo oscuro o un filtro de inversión lo dejan
-   ilegible. Por eso aquí no hay variables de tema ni reglas de modo oscuro. */
-
 .carnet-oficial {
     width: 100%;
     max-width: 380px;
@@ -19,8 +13,6 @@
     position: relative;
 }
 
-/* Cada perfil conserva la misma identidad institucional, pero el tamaño se
-   adapta a la ficha de datos que realmente imprime ese carnet. */
 .carnet-oficial--aprendiz .carnet-of-datos {
     margin-top: 10px;
 }
@@ -107,9 +99,6 @@
     flex-shrink: 0;
 }
 
-/* "Nombres" y "Apellidos" van cada uno en su línea sin etiqueta visible en el
-   formato impreso, pero el lector de pantalla sí necesita saber qué es cada
-   dato: la etiqueta se deja en el DOM y se oculta solo a la vista. */
 .carnet-of-fila:nth-child(1) dt,
 .carnet-of-fila:nth-child(2) dt {
     position: absolute;
@@ -160,10 +149,6 @@
     margin: 0;
 }
 
-/* --- Código de barras ---
-   Ocupa todo el ancho disponible: leer un código lineal desde la pantalla de
-   un móvil es mucho más difícil que leer un QR, y el ancho es la variable que
-   más ayuda. El relleno lateral es la zona muda que exige la norma. */
 .carnet-of-barras {
     margin: 14px -20px 0 -20px;
     padding: 10px 0 6px 0;
@@ -238,8 +223,6 @@
     line-height: 1.5;
 }
 
-/* Botón de descarga: NO usa .glass-btn a propósito, porque esa clase impone
-   color, ancho y relleno con !important y no dejaría ajustarlo aquí. */
 .carnet-boton-descarga {
     display: inline-flex;
     align-items: center;
@@ -290,8 +273,6 @@
     }
 }
 
-/* En móvil el carnet ocupa el ancho completo: cuanto más ancho, más fácil de
-   escanear. Comprobado a 375 px. */
 @media (max-width: 600px) {
     .carnet-oficial {
         max-width: 100%;

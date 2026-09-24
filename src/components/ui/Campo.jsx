@@ -1,7 +1,6 @@
 import { useId } from 'react'
 
-// Dos formatos de Portería 2: "flotante" (el control va antes de la etiqueta y lleva placeholder " "
-// para que el CSS detecte :placeholder-shown) y "grupo" (etiqueta arriba, como en los modales de gestión).
+// Variantes "flotante" (etiqueta dentro del campo) y "grupo" (etiqueta arriba)
 export default function Campo({ etiqueta, icono, error, ayuda, children, requerido, extra, variante = 'flotante', ancho }) {
   const id = useId()
   const idMensaje = `${id}-mensaje`

@@ -3,15 +3,14 @@ import JsBarcode from 'jsbarcode'
 import logoSena from '../assets/img/logoSena.png'
 import { avatarDeCargo } from './ui/FotoUsuario'
 
-// Datos del centro que imprime el carnet: se cambian por .env para instalarlo en otra sede
+// Datos del centro, configurables por .env
 const REGIONAL = import.meta.env.VITE_CARNET_REGIONAL || 'Regional Santander'
 const CENTRO = import.meta.env.VITE_CARNET_CENTRO || 'Centro de Gestión Agroempresarial del Oriente'
 const ASEGURADORA = import.meta.env.VITE_CARNET_ASEGURADORA || ''
 const ASEGURADORA_TEL = import.meta.env.VITE_CARNET_ASEGURADORA_TEL || ''
 const POLIZA = import.meta.env.VITE_CARNET_POLIZA || ''
 
-// Formato oficial del SENA: logo y foto arriba, perfil subrayado, datos y pie con regional y centro.
-// El código de barras es Code128 del documento, el mismo que lee el escáner de portería.
+// Formato oficial del SENA; el código de barras es Code128 del documento
 export default function CarnetDigital({ carnet, fotoUrl, cargo }) {
   const barras = useRef(null)
 

@@ -45,10 +45,7 @@
 .glass-card:hover { transform: translateY(-10px) rotateX(5deg) rotateY(1deg); box-shadow: 0 30px 60px rgba(0,0,0,0.12); }
 
 /* Basic Buttons */
-/* var(--primary-color) = #39A900 solido con texto blanco da 3.07:1: no
-   llega a 4.5:1. Se fija un verde mas oscuro solo para este boton en vez
-   de cambiar la variable global (la usan tambien iconos y bordes donde
-   #39A900 si es valido, por ser elementos grandes/no textuales). */
+
 .btn-primary {
     background-color: #2d8500; color: var(--white);
     padding: 0.75rem 1.5rem; border: none; border-radius: 8px; font-weight: 600;
@@ -67,18 +64,6 @@
     transform: none !important;
 }
 
-.btn-delete { color: #a93226; padding: 0.5rem; cursor: pointer; transition: transform 0.2s; }
-.btn-delete:hover { transform: scale(1.2); }
-.btn-delete:focus-visible { outline: 3px solid #1565C0; outline-offset: 2px; }
-
-/* Premium Glow Buttons
-   OJO: .btn-glow tambien se define en botones.css con !important en
-   background/color/padding/border-radius; esas propiedades ganan siempre
-   sobre las de aqui (que no llevan !important), asi que el color real
-   renderizado es el de botones.css (ya corregido a AA). Las propiedades
-   que SI vienen de aqui son box-shadow y los detalles del :hover (esas no
-   estan en botones.css o no llevan !important). No se borra esta regla
-   para no romper esos estilos, pero es la razon de la duplicacion. */
 .btn-glow {
     background: linear-gradient(135deg, var(--primary-color), #4cd137);
     color: white; border: none; border-radius: 15px; padding: 14px 28px;
@@ -105,46 +90,8 @@
 
 /* Alerts */
 .alert { padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; }
-.alert-success { background: #D4EDDA; color: #155724; }
-.alert-danger { background: #F8D7DA; color: #721C24; }
 /* Global Footer Links (Login/Register alternates) */
-html .glass-footer-link, 
-html[data-theme="dark"] .glass-footer-link,
-body .glass-footer-link {
-    color: var(--primary-color) !important;
-    font-weight: 700 !important;
-    text-decoration: underline !important;
-    text-underline-offset: 4px;
-    position: relative;
-    display: inline-block;
-    transition: all 0.3s ease;
-}
 
-.glass-footer-link:visited, 
-html[data-theme="dark"] .glass-footer-link:visited {
-    color: var(--primary-color) !important;
-}
-
-.glass-footer-link:hover,
-html[data-theme="dark"] .glass-footer-link:hover {
-    color: var(--primary-color) !important;
-    filter: brightness(1.3);
-    text-decoration: underline !important;
-}
-
-.glass-footer-link:active {
-    color: var(--primary-color) !important;
-}
-
-/* ==========================================================================
-   Correcciones de contraste y de acciones destructivas
-   ========================================================================== */
-
-/* La clase .glass-btn impone el verde del SENA con !important, y en los modales
-   de confirmacion dejaba "Si, Eliminar" IDENTICO a "No, Cancelar". Borrar un
-   usuario es irreversible: los dos botones tienen que distinguirse a simple
-   vista. Se gana con mayor especificidad ademas de !important, porque
-   botones.css tambien usa !important. */
 .confirm-modal-actions .btn-danger-action,
 .confirm-modal-actions .glass-btn.btn-danger-action {
     background: #C62828 !important;
@@ -174,8 +121,6 @@ html[data-theme="dark"] .glass-footer-link:hover {
     outline-offset: 2px;
 }
 
-/* Acciones de cabecera en una sola fila, cada boton a su ancho: .glass-btn
-   impone width:100% y los dejaba como dos barras apiladas de lado a lado. */
 .header-actions .action-buttons {
     display: flex;
     flex-wrap: wrap;
@@ -187,11 +132,6 @@ html[data-theme="dark"] .glass-footer-link:hover {
     width: auto;
 }
 
-/* Las clases .badge* se usan en la tabla de gestion de perfiles pero no tenian
-   ninguna regla en todo el proyecto: "Verificado", "Pendiente" y "Bloqueado" se
-   veian como texto plano identico. Un admin revisando decenas de cuentas no
-   podia distinguir el estado de un vistazo. Todos los colores usados aqui
-   superan 4.5:1 sobre texto blanco (WCAG AA). */
 .badge {
     display: inline-block;
     padding: 3px 10px;
@@ -210,8 +150,6 @@ html[data-theme="dark"] .glass-footer-link:hover {
 .badge-info    { background: #1565C0; }   /* 5.78:1 */
 .badge-primary { background: #00695C; }   /* 5.62:1 */
 
-/* En tema oscuro se aclaran un punto para no perder contraste contra el fondo
-   de la fila, manteniendo el texto oscuro encima. */
 [data-theme="dark"] .badge-success { background: #66BB6A; color: #10240f; }
 [data-theme="dark"] .badge-warning { background: #FFB74D; color: #2b1a00; }
 [data-theme="dark"] .badge-danger  { background: #EF5350; color: #2a0a0a; }

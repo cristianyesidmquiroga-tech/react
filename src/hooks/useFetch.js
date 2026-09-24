@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-// Los 4 estados de la interfaz: cargando, error, vacío y con datos. Cancela la petición si el componente se va
+// Estados cargando, error, vacío y con datos; cancela la petición al desmontar
 export function useFetch(funcion, dependencias = []) {
   const [data, setData] = useState(null)
   const [cargando, setCargando] = useState(true)

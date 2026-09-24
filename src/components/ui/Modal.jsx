@@ -3,7 +3,6 @@ import { createPortal } from 'react-dom'
 
 const ENFOCABLES = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
 
-// Modal de cristal de Portería 2 (glass-modal) con el foco atrapado mientras está abierto
 export default function Modal({ abierto, onCerrar, titulo, children, pie, ancho = 'md' }) {
   const caja = useRef(null)
   const idTitulo = useId()
@@ -17,7 +16,7 @@ export default function Modal({ abierto, onCerrar, titulo, children, pie, ancho 
     if (!abierto) return undefined
     const anterior = document.activeElement
     const raiz = document.getElementById('root')
-    // El resto de la página queda inerte: ni el teclado ni el lector de pantalla salen del modal
+    // El resto de la página queda inerte mientras el modal está abierto
     raiz.inert = true
     const elementos = () => [...caja.current.querySelectorAll(ENFOCABLES)].filter((e) => !e.disabled)
     const primerCampo = caja.current.querySelector('.modal-body input, .modal-body select, .modal-body textarea')

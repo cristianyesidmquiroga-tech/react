@@ -122,9 +122,6 @@
     background: rgba(255, 255, 255, 0.1);
 }
 
-/* Foco visible para el resto de enlaces del menu (el enlace de cerrar
-   sesion ya tiene el suyo propio en rojo, mas abajo, por eso se excluye
-   aqui para no pisarlo). */
 .sidebar-nav a:focus-visible:not(.enlace-cerrar-sesion),
 .dropdown-btn:focus-visible {
     outline: 3px solid #1565C0;
@@ -137,7 +134,7 @@
     width: 100%; cursor: pointer;
     font-family: inherit; font-size: 1rem;
 }
-.dropdown-btn .caret { 
+.dropdown-btn .caret {
     margin-left: auto; transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); font-size: 0.8rem;
 }
 .sidebar-dropdown.open .caret { transform: rotate(180deg); color: var(--primary-color); }
@@ -169,30 +166,22 @@
     background: rgba(255, 255, 255, 0.02);
 }
 
-.sidebar-divider {
-    margin: 1.5rem 0; border: 0; border-top: 1px solid #EEE;
-}
-
 @media (max-width: 992px) {
-    .sidebar { 
-        left: -300px; 
+    .sidebar {
+        left: -300px;
     }
-    .sidebar.open { 
-        left: 15px; 
+    .sidebar.open {
+        left: 15px;
         box-shadow: 0 20px 60px rgba(0,0,0,0.5);
     }
 }
 
 @media (max-width: 768px) {
-    .sidebar { 
+    .sidebar {
         width: 280px; /* Ancho completo al abrir en móvil */
     }
 }
 
-
-/* Cerrar sesión: separado del resto de la navegación y en rojo, porque es la
-   única opción del menú que saca a la persona del sistema. Antes estaba en la
-   barra superior, donde se desbordaba en pantallas estrechas. */
 .enlace-cerrar-sesion {
     margin-top: auto;
     border-top: 1px solid var(--glass-border, rgba(0, 0, 0, 0.1));

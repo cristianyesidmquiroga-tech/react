@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import urlParticulas from 'particles.js/particles.js?url'
 import { useTema } from '../../context/ThemeContext'
 
-// particles.js usa arguments.callee, prohibido en módulos ES: se carga como script clásico, una sola vez
+// particles.js usa arguments.callee y falla como módulo ES
 let cargaParticulas = null
 function cargarParticulas() {
   cargaParticulas ??= new Promise((resolver, rechazar) => {
@@ -15,7 +15,7 @@ function cargarParticulas() {
   return cargaParticulas
 }
 
-// Misma configuración del fondo de Portería 2: verde SENA en claro, blanco en oscuro
+// Verde SENA en claro, blanco en oscuro
 function configuracion(color) {
   return {
     particles: {
@@ -36,7 +36,7 @@ function configuracion(color) {
   }
 }
 
-// particles.js no trae forma de apagarse sola; destroypJS además deja pJSDom en null
+// destroypJS deja pJSDom en null, por eso se reinicia a mano
 function destruir() {
   ;(window.pJSDom || []).forEach((p) => p?.pJS?.fn?.vendors?.destroypJS())
   window.pJSDom = []

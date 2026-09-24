@@ -1,11 +1,4 @@
-/* Botones Premium
-   El texto es blanco en negrita sobre estos botones: #39A900 (verde
-   institucional puro) solo da 3.07:1, y el hover anterior (#45cc00) bajaba
-   a 2.12:1 - insuficiente para texto de 0.85-1rem (se necesita 4.5:1).
-   Los dos tonos de abajo mantienen la identidad verde SENA y pasan AA:
-   #2d8500 = 4.70:1, #256a00 = 6.69:1 sobre blanco. */
 .glass-btn,
-.btn-primary-glass,
 .btn-glow {
     background: linear-gradient(135deg, #2d8500, #256a00) !important;
     color: white !important;
@@ -33,21 +26,14 @@
     background: linear-gradient(135deg, #256a00, #1d5400) !important;
 }
 
-/* Foco visible: sobre fondo verde el azul institucional se pierde, por eso
-   se usa un contorno blanco con un halo azul detras para que resalte igual
-   en claro y oscuro. */
 .glass-btn:focus-visible,
-.btn-primary-glass:focus-visible,
 .btn-glow:focus-visible {
     outline: 3px solid #ffffff;
     outline-offset: 2px;
     box-shadow: 0 0 0 5px rgba(21, 101, 192, 0.6);
 }
 
-/* Estado deshabilitado: antes un boton "disabled" se veia y se comportaba
-   igual que uno activo (mismo color, mismo hover). */
 .glass-btn:disabled,
-.btn-primary-glass:disabled,
 .btn-glow:disabled {
     opacity: 0.55;
     cursor: not-allowed;
@@ -98,9 +84,6 @@
     cursor: not-allowed;
 }
 
-/* #CBD5E0 sobre blanco daba 1.49:1 (practicamente invisible). #5A6B7D pasa
-   5.48:1 en claro; en oscuro se aclara a #90A4AE (5.85:1 sobre la tarjeta
-   oscura #1e272e) porque el gris oscuro original desaparecia igual. */
 .back-link-premium {
     color: #5A6B7D !important;
     text-decoration: none;
@@ -167,9 +150,6 @@
     box-shadow: none !important;
 }
 
-/* Texto blanco en negrita: #3498db (3.15:1) y #2980b9 (4.30:1) no llegaban
-   a 4.5:1. Se oscurecen ambos extremos del degradado manteniendo el mismo
-   azul de "editar". */
 .action-btn-edit {
     background: linear-gradient(135deg, #1f618d, #154360) !important;
     box-shadow: 0 4px 15px rgba(31, 97, 141, 0.3);

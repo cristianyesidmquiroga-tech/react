@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { perfilService } from '../services/api'
 
-// La foto exige el token, así que no puede ir directo en <img src>: se pide y se muestra como blob
+// La foto exige token, por eso se pide como blob
 export function useFotoProtegida(usuarioId, version = 0) {
   const [url, setUrl] = useState(null)
 

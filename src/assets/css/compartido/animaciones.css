@@ -8,9 +8,6 @@
     border-radius: 50%;
     pointer-events: none;
 }
-.blob-1 { width: 45vw; height: 45vw; background: rgba(57, 169, 0, 0.4); top: -10%; left: -5%; animation-delay: 0s; }
-.blob-2 { width: 50vw; height: 50vw; background: rgba(52, 152, 219, 0.3); bottom: -20%; right: -10%; animation-delay: -3s; }
-.blob-3 { width: 40vw; height: 40vw; background: rgba(255, 107, 107, 0.3); top: 20%; left: 30%; animation-delay: -6s; transform: translateX(-50%); }
 
 @keyframes float {
     0% { transform: translate(0, 0) scale(1) rotate(0deg); }
@@ -32,20 +29,11 @@
     100% { transform: perspective(1000px) rotateY(360deg); }
 }
 
-/* Antes era un degradado arcoiris animado usado como color de titulo
-   (h1, KPIs del dashboard, nombre del centro). Con tramos que bajaban a
-   1.52:1 y 1.92:1 sobre fondo blanco era ilegible, sobre todo con poca luz.
-   Se reemplaza por el mismo verde/texto institucional que ya usa el resto
-   del sistema (--secondary-text), que ya esta resuelto para claro/oscuro:
-   13.43:1 en claro, 8.77:1 en oscuro sobre la tarjeta. */
 .highlight-rainbow {
     color: var(--secondary-text);
 }
 
 /* Page Transition Slide In */
-.page-enter-active {
-    animation: slide-reveal-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
 
 @keyframes slide-reveal-up {
     0% { opacity: 0; transform: translateY(40px) scale(0.95); filter: blur(10px); }
@@ -59,8 +47,8 @@
     transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.js-ready .stagger-item:not(.revealed), 
-.js-ready .animate-on-scroll:not(.revealed), 
+.js-ready .stagger-item:not(.revealed),
+.js-ready .animate-on-scroll:not(.revealed),
 .js-ready .dust-reveal:not(.revealed) {
     opacity: 0;
     transform: translateY(20px) scale(0.98);
@@ -113,10 +101,6 @@
     animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
-.fade-in {
-    animation: fadeIn 0.8s ease-in-out forwards;
-}
-
 @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(20px); visibility: visible; }
     to { opacity: 1; transform: translateY(0); visibility: visible; }
@@ -132,13 +116,6 @@
     to { opacity: 1; visibility: visible; }
 }
 
-/* prefers-reduced-motion: el sistema tiene varios bucles infinitos activos
-   a la vez (blobs de fondo, fondo con gradiente animado, logo con
-   pulse-glow, titulo con float-tilt, spin-3d del logo del header). Se
-   apagan todos de un golpe en vez de tener que tocar cada animacion una
-   por una en archivos distintos. Las animaciones de una sola pasada (fade,
-   slide, etc.) terminan casi instantaneas en vez de saltar de estado,
-   evitando que algo quede invisible a mitad de una transicion JS. */
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
         animation-duration: 0.01ms !important;

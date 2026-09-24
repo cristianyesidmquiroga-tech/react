@@ -30,49 +30,8 @@
 }
 
 /* Holographic Rings */
-.loader-ring {
-    position: absolute;
-    border-radius: 50%;
-    border: 2px solid transparent;
-    border-top-color: var(--primary-color);
-    border-bottom-color: var(--secondary-color);
-    opacity: 0.6;
-}
-
-.ring-1 {
-    width: 120px;
-    height: 120px;
-    animation: ring-rotate 2s linear infinite;
-}
-
-.ring-2 {
-    width: 150px;
-    height: 150px;
-    border-top-color: var(--secondary-color);
-    border-bottom-color: var(--accent-color);
-    animation: ring-rotate 3s linear infinite reverse;
-}
-
-.ring-3 {
-    width: 180px;
-    height: 180px;
-    opacity: 0.3;
-    animation: ring-rotate 4s linear infinite;
-}
 
 /* Orbiting Dots */
-.loader-dot {
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    background: var(--primary-color);
-    border-radius: 50%;
-    filter: blur(1px);
-    box-shadow: 0 0 10px var(--primary-color);
-}
-
-.dot-1 { animation: orbit-1 4s linear infinite; }
-.dot-2 { animation: orbit-2 3s linear infinite; }
 
 @keyframes loader-logo-dance {
     0%, 100% { transform: scale(1) perspective(1000px) rotateY(0deg); filter: brightness(1); }

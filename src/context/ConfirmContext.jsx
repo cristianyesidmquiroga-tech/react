@@ -3,10 +3,7 @@ import { createPortal } from 'react-dom'
 
 const ConfirmContext = createContext(null)
 
-/**
- * Confirmación global con el mismo diseño de Portería 2. Arranca en la opción segura (cancelar),
- * atrapa el foco entre sus dos botones y lo devuelve a quien la abrió.
- */
+// Confirmación global; el foco arranca en Cancelar
 export function ConfirmProvider({ children }) {
   const [pedido, setPedido] = useState(null)
   const cancelar = useRef(null)

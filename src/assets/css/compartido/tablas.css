@@ -6,8 +6,7 @@
 }
 .tab-btn {
     background: none; border: none; padding: 0.5rem 0; font-size: 1.05rem; font-weight: 600;
-    /* #999 sobre blanco daba 2.85:1. var(--muted-readable) pasa 4.83:1 en
-       claro y 5.97:1 en oscuro (ver compartido/variables.css). */
+
     color: var(--muted-readable); cursor: pointer; position: relative; transition: color 0.3s;
     white-space: nowrap;
 }
@@ -24,8 +23,8 @@
 }
 
 /* General Tables */
-.table-responsive { 
-    overflow-x: auto; 
+.table-responsive {
+    overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     width: 100%;
 }
@@ -35,25 +34,25 @@
     text-align: left;
     font-size: 0.95rem;
 }
-thead tr { 
-    border-bottom: 2px solid var(--glass-border); 
-    background: rgba(0, 0, 0, 0.02); 
+thead tr {
+    border-bottom: 2px solid var(--glass-border);
+    background: rgba(0, 0, 0, 0.02);
 }
 [data-theme="dark"] thead tr { background: rgba(255, 255, 255, 0.05); }
-th { 
-    padding: 1.2rem 1rem; 
-    color: var(--glass-subtext); 
+th {
+    padding: 1.2rem 1rem;
+    color: var(--glass-subtext);
     font-weight: 600;
     white-space: nowrap;
 }
-tbody tr { 
-    border-bottom: 1px solid var(--glass-border); 
-    transition: background 0.3s; 
+tbody tr {
+    border-bottom: 1px solid var(--glass-border);
+    transition: background 0.3s;
 }
 tbody tr:hover { background-color: rgba(0, 0, 0, 0.02); }
 [data-theme="dark"] tbody tr:hover { background-color: rgba(255, 255, 255, 0.05); }
-td { 
-    padding: 1rem; 
+td {
+    padding: 1rem;
     color: var(--glass-text);
 }
 

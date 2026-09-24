@@ -2,7 +2,7 @@ import { Link, NavLink } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import logoSena from '../../assets/img/logoSena.png'
 
-// Cada enlace dice qué permiso necesita; el menú solo pinta lo que la persona puede usar
+// Solo se muestran los enlaces permitidos para el usuario
 const ENLACES = [
   { a: '/admin/usuarios', texto: 'Gestión Perfiles', icono: 'fa-users-cog', permiso: 'admin' },
   { a: '/admin/fotos', texto: 'Revisar Fotos', icono: 'fa-user-check', permiso: 'admin' },
@@ -28,7 +28,7 @@ export default function Sidebar({ abierto, onCerrar }) {
             <i className={`fas ${icono}`} aria-hidden="true" /> <span>{texto}</span>
           </NavLink>
         ))}
-        {/* Separado y en rojo: es la única acción del menú que saca del sistema */}
+        {/* Separado y en rojo porque saca del sistema */}
         <Link to="/login" className="stagger-item enlace-cerrar-sesion" onClick={logout}>
           <i className="fas fa-sign-out-alt" aria-hidden="true" /> <span>Cerrar Sesión</span>
         </Link>

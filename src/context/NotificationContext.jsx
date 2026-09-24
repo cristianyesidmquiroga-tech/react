@@ -25,7 +25,7 @@ export function NotificationProvider({ children }) {
   return (
     <NotificationContext.Provider value={valor}>
       {children}
-      {/* Fuera de #root para que sigan activos aunque un modal deje la página inerte */}
+      {/* Fuera de #root para seguir activos con un modal abierto */}
       {createPortal(
         <div id="toast-container" aria-live="polite">
           {avisos.map((a) => (

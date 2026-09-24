@@ -1,6 +1,6 @@
 import { Component } from 'react'
 
-// Si una vista falla al pintarse, se aísla el fallo y el resto de la aplicación sigue funcionando
+// Aísla el fallo de una vista sin tumbar toda la aplicación
 export default class ErrorBoundary extends Component {
   constructor(props) {
     super(props)
