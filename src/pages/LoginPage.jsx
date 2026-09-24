@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
-import { CircleAlert, Eye, EyeOff, LogIn, ShieldCheck } from 'lucide-react'
+import AuthLayout from '../components/layout/AuthLayout'
 import Campo from '../components/ui/Campo'
 import { useAuth } from '../context/AuthContext'
-import './auth.css'
+import logoSena from '../assets/img/logoSena.png'
 
 export default function LoginPage() {
   const { usuario, login, aviso } = useAuth()
@@ -48,71 +48,101 @@ export default function LoginPage() {
   const segundos = String(bloqueo % 60).padStart(2, '0')
 
   return (
-    <main className="acceso">
-      <section className="acceso__tarjeta" aria-labelledby="titulo-login">
-        <div className="acceso__marca">
-          <ShieldCheck size={40} aria-hidden="true" />
-          <div>
-            <h1 id="titulo-login">Portería SENA</h1>
-            <p>Ingresa con tu correo o número de documento</p>
-          </div>
+    <AuthLayout>
+      <div className="auth-split-wrapper">
+        <div className="branding-section">
+          <img src={logoSena} alt="SENA Logo" className="branding-logo" />
+          <h2 className="branding-title">
+            Únete al <span className="text-accent-green">Centro de Gestión</span>{' '}
+            <span className="text-accent-orange">Agroempresarial</span> <span className="text-accent-green">del Oriente</span>
+          </h2>
+          <p className="branding-description">
+            Gestiona tu acceso, equipos y carnet digital de forma fluida, rápida y segura con nuestro sistema dinámico.
+          </p>
         </div>
 
-        {aviso && !error && (
-          <p className="alerta alerta--info" role="status">
-            {aviso}
-          </p>
-        )}
-        {error && (
-          <p className="alerta alerta--peligro" role="alert">
-            <CircleAlert size={18} aria-hidden="true" />
-            <span>
-              {error}
-              {bloqueo > 0 && ` Intenta de nuevo en ${minutos}:${segundos}.`}
-            </span>
-          </p>
-        )}
-
-        <form className="formulario" onSubmit={enviar} noValidate>
-          <Campo etiqueta="Correo o documento" requerido>
-            {(props) => (
-              <input
-                {...props}
-                autoComplete="username"
-                maxLength={100}
-                value={identificador}
-                onChange={(e) => setIdentificador(e.target.value)}
-              />
-            )}
-          </Campo>
-          <Campo etiqueta="Contraseña" requerido>
-            {(props) => (
-              <div className="campo-clave">
-                <input
-                  {...props}
-                  type={verClave ? 'text' : 'password'}
-                  autoComplete="current-password"
-                  maxLength={72}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <button
-                  type="button"
-                  className="boton-icono"
-                  onClick={() => setVerClave((v) => !v)}
-                  aria-label={verClave ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-                >
-                  {verClave ? <EyeOff size={18} aria-hidden="true" /> : <Eye size={18} aria-hidden="true" />}
-                </button>
+        <div className="form-section">
+          <div className="glass-container acceso-contenedor">
+            <div className="glass-card acceso-tarjeta">
+              <div className="auth-header">
+                <div className="auth-icon-wrapper">
+                  <i className="fas fa-shield-alt" aria-hidden="true" />
+                </div>
+                <h1 className="text-3d">Bienvenido</h1>
+                <p>Acceso unificado al sistema de identidad institucional.</p>
               </div>
-            )}
-          </Campo>
-          <button type="submit" className="boton boton--primario boton--bloque" disabled={enviando || bloqueo > 0}>
-            <LogIn size={18} aria-hidden="true" />
-            {enviando ? 'Ingresando...' : 'Ingresar'}
-          </button>
-        </form>
-      </section>
-    </main>
+
+              <form className="floating-form" onSubmit={enviar} noValidate>
+                {aviso && !error && (
+                  <div className="error-alert error-alert--info" role="status">
+                    <i className="fas fa-info-circle" aria-hidden="true" />
+                    <span>{aviso}</span>
+                  </div>
+                )}
+                {error && (
+                  <div className="error-alert" role="alert">
+                    <i className={`fas ${bloqueo > 0 ? 'fa-lock' : 'fa-exclamation-circle'}`} aria-hidden="true" />
+                    <span>
+                      {error}
+                      {bloqueo > 0 && ` Intenta de nuevo en ${minutos}:${segundos}.`}
+                    </span>
+                  </div>
+                )}
+
+                <Campo etiqueta="Correo o Documento">
+                  {(props) => (
+                    <input
+                      {...props}
+                      className={bloqueo > 0 ? 'input-error' : undefined}
+                      autoComplete="username"
+                      maxLength={100}
+                      value={identificador}
+                      onChange={(e) => setIdentificador(e.target.value)}
+                    />
+                  )}
+                </Campo>
+                <Campo
+                  etiqueta="Contraseña"
+                  extra={
+                    <button
+                      type="button"
+                      className={`password-toggle-btn${verClave ? ' active' : ''}`}
+                      onClick={() => setVerClave((v) => !v)}
+                      aria-label={verClave ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                    >
+                      <i className={`far ${verClave ? 'fa-eye-slash' : 'fa-eye'}`} aria-hidden="true" />
+                    </button>
+                  }
+                >
+                  {(props) => (
+                    <input
+                      {...props}
+                      className="input-con-boton"
+                      type={verClave ? 'text' : 'password'}
+                      autoComplete="current-password"
+                      maxLength={72}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                  )}
+                </Campo>
+
+                <button type="submit" className="glass-btn btn-glow acceso-enviar" disabled={enviando || bloqueo > 0}>
+                  {enviando ? (
+                    <>
+                      <i className="fas fa-spinner fa-spin" aria-hidden="true" /> <span>Procesando...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Ingresar de Forma Segura</span> <i className="fas fa-arrow-right" aria-hidden="true" />
+                    </>
+                  )}
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </AuthLayout>
   )
 }

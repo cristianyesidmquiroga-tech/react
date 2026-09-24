@@ -1,22 +1,33 @@
-import { useEffect } from 'react'
-import { CircleAlert, CircleCheck, Info, TriangleAlert, X } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
-const ICONOS = { success: CircleCheck, error: CircleAlert, warning: TriangleAlert, info: Info }
+const ICONOS = { success: 'fa-check-circle', danger: 'fa-exclamation-circle', warning: 'fa-align-left', info: 'fa-info-circle' }
 
-export default function Toast({ id, mensaje, tipo = 'info', onClose, duracion = 4500 }) {
+export default function Toast({ id, titulo, mensaje, tipo = 'info', onClose }) {
+  const [visible, setVisible] = useState(false)
+
   useEffect(() => {
-    const temporizador = setTimeout(() => onClose(id), duracion)
-    return () => clearTimeout(temporizador)
-  }, [id, onClose, duracion])
+    const entrar = requestAnimationFrame(() => setVisible(true))
+    const salir = setTimeout(() => setVisible(false), 4000)
+    const quitar = setTimeout(() => onClose(id), 4500)
+    return () => {
+      cancelAnimationFrame(entrar)
+      clearTimeout(salir)
+      clearTimeout(quitar)
+    }
+  }, [id, onClose])
 
-  const Icono = ICONOS[tipo] || Info
   return (
-    <div className={`toast toast--${tipo}`} role={tipo === 'error' ? 'alert' : 'status'}>
-      <Icono size={20} aria-hidden="true" />
-      <p>{mensaje}</p>
-      <button type="button" className="boton-icono" onClick={() => onClose(id)} aria-label="Cerrar aviso">
-        <X size={16} aria-hidden="true" />
-      </button>
+    <div className={`toast toast-${tipo}${visible ? ' show' : ''}`} role={tipo === 'danger' ? 'alert' : 'status'}>
+      <div className="toast-icon">
+        <i className={`fas ${ICONOS[tipo] || ICONOS.info}`} aria-hidden="true" />
+      </div>
+      <div className="toast-content">
+        <span className="toast-title">{titulo}</span>
+        <p className="toast-message">{mensaje}</p>
+      </div>
+      <div className="toast-progress">
+        <div className="toast-progress-bar" />
+      </div>
     </div>
   )
 }

@@ -1,5 +1,4 @@
 import { Component } from 'react'
-import { TriangleAlert } from 'lucide-react'
 
 // Si una vista falla al pintarse, se aísla el fallo y el resto de la aplicación sigue funcionando
 export default class ErrorBoundary extends Component {
@@ -19,11 +18,11 @@ export default class ErrorBoundary extends Component {
   render() {
     if (!this.state.error) return this.props.children
     return (
-      <div className="estado estado--error" role="alert">
-        <TriangleAlert size={32} aria-hidden="true" />
+      <div className="glass-card estado-vacio" role="alert">
+        <i className="fas fa-exclamation-triangle" aria-hidden="true" />
         <h2>Esta sección no se pudo mostrar</h2>
         <p>Recarga la página. Si vuelve a pasar, avisa al administrador.</p>
-        <button type="button" className="boton boton--secundario" onClick={() => this.setState({ error: null })}>
+        <button type="button" className="btn-outline" onClick={() => this.setState({ error: null })}>
           Intentar de nuevo
         </button>
       </div>

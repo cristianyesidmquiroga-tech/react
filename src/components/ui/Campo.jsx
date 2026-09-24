@@ -1,25 +1,53 @@
 import { useId } from 'react'
 
-// Etiqueta, control y mensaje de error enlazados para lectores de pantalla
-export default function Campo({ etiqueta, error, ayuda, children, requerido }) {
+// Dos formatos de Portería 2: "flotante" (el control va antes de la etiqueta y lleva placeholder " "
+// para que el CSS detecte :placeholder-shown) y "grupo" (etiqueta arriba, como en los modales de gestión).
+export default function Campo({ etiqueta, icono, error, ayuda, children, requerido, extra, variante = 'flotante', ancho }) {
   const id = useId()
   const idMensaje = `${id}-mensaje`
-  const control = typeof children === 'function'
-    ? children({ id, 'aria-invalid': Boolean(error), 'aria-describedby': error || ayuda ? idMensaje : undefined })
-    : children
+  const flotante = variante === 'flotante'
+  const clases = [flotante ? null : 'glass-input', error ? 'input-error' : null].filter(Boolean).join(' ')
+  const control =
+    typeof children === 'function'
+      ? children({
+          id,
+          placeholder: flotante ? ' ' : undefined,
+          className: clases || undefined,
+          'aria-invalid': Boolean(error),
+          'aria-describedby': error || ayuda ? idMensaje : undefined,
+        })
+      : children
+  const mensaje = (error || ayuda) && (
+    <small id={idMensaje} className={error ? 'campo-mensaje campo-mensaje--error' : 'campo-mensaje'}>
+      {error || ayuda}
+    </small>
+  )
+
+  if (!flotante) {
+    return (
+      <div className={`form-group${ancho === 'completo' ? ' form-group--completo' : ''}`}>
+        <label htmlFor={id}>
+          {etiqueta}
+          {requerido && <span aria-hidden="true"> *</span>}
+        </label>
+        {control}
+        {mensaje}
+      </div>
+    )
+  }
 
   return (
-    <div className={`campo${error ? ' campo--error' : ''}`}>
-      <label htmlFor={id}>
-        {etiqueta}
-        {requerido && <span aria-hidden="true"> *</span>}
-      </label>
-      {control}
-      {(error || ayuda) && (
-        <small id={idMensaje} className={error ? 'campo__error' : 'campo__ayuda'}>
-          {error || ayuda}
-        </small>
-      )}
-    </div>
+    <>
+      <div className="floating-group">
+        {control}
+        <label htmlFor={id}>
+          {icono && <i className={`fas ${icono}`} aria-hidden="true" />} {etiqueta}
+          {requerido && <span aria-hidden="true"> *</span>}
+        </label>
+        {extra}
+        <div className="floating-border" />
+      </div>
+      {mensaje}
+    </>
   )
 }

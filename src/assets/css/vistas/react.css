@@ -1,0 +1,619 @@
+/* Piezas que el sistema original resolvía con estilos en línea o que solo necesita la versión en React */
+
+/* En Portería 2 el menú y el contenido eran hijos directos de <body>, que es flex */
+#root {
+    display: contents;
+}
+
+.solo-lectores {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.saltar-contenido {
+    position: absolute;
+    left: 1rem;
+    top: -100px;
+    z-index: 3000;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    background: var(--white);
+    color: var(--text-main);
+}
+
+.saltar-contenido:focus {
+    top: 1rem;
+}
+
+#particles-js {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+}
+
+:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Botones que en el original eran <div> clicables */
+.menu-toggle,
+.sidebar-close {
+    background: none;
+    border: 0;
+}
+
+.logo-header-group {
+    min-width: 0;
+    overflow: hidden;
+}
+
+.logo-header-group .page-title {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.header-acciones {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+.user-pill--enlace {
+    margin: 0;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s;
+}
+
+.aviso-sistema {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    border-radius: 15px;
+    border: 1px solid;
+    border-left-width: 5px;
+}
+
+.aviso-sistema > i {
+    font-size: 2.5rem;
+}
+
+.aviso-sistema h2 {
+    margin: 0 0 5px;
+    font-size: 1.1rem;
+}
+
+.aviso-sistema p {
+    margin: 0;
+    color: var(--text-main);
+    font-size: 0.95rem;
+}
+
+.aviso-sistema--peligro {
+    background: rgba(231, 76, 60, 0.1);
+    border-color: rgba(231, 76, 60, 0.3);
+    border-left-color: #e74c3c;
+}
+
+.aviso-sistema--peligro > i,
+.aviso-sistema--peligro h2,
+.aviso-sistema--peligro a {
+    color: var(--danger-color);
+}
+
+.aviso-sistema--peligro a {
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+.pie-sistema {
+    margin-top: auto;
+    padding: 40px 0;
+    text-align: center;
+    color: var(--glass-subtext);
+    font-size: 0.85rem;
+}
+
+/* ---------- Estilos que en Portería 2 iban en línea dentro de las plantillas ---------- */
+
+.texto-ayuda {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin: -0.5rem 0 1rem;
+}
+
+.campo-mensaje {
+    display: block;
+    margin: -1.1rem 0 1.2rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.form-group .campo-mensaje {
+    margin: 0.35rem 0 0;
+}
+
+.campo-mensaje--error {
+    color: var(--danger-color);
+    font-weight: 600;
+}
+
+.floating-group .input-con-boton {
+    padding-right: 40px !important;
+}
+
+.error-alert {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border-radius: 10px;
+    border: 1px solid #e74c3c;
+    background: rgba(231, 76, 60, 0.1);
+    color: var(--danger-color);
+}
+
+.error-alert--info {
+    border-color: #1565c0;
+    background: rgba(21, 101, 192, 0.08);
+    color: #1565c0;
+}
+
+[data-theme="dark"] .error-alert { color: #f4776f; }
+[data-theme="dark"] .error-alert--info { color: #8cc8ff; }
+
+.boton-bloque {
+    width: 100%;
+    margin-top: 2rem;
+}
+
+/* Login */
+.acceso-contenedor {
+    max-width: 450px;
+    width: 100%;
+}
+
+.acceso-tarjeta {
+    padding: 2.5rem;
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.auth-header h1 {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.auth-header p {
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.auth-icon-wrapper {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(57, 169, 0, 0.1);
+}
+
+.auth-icon-wrapper i {
+    font-size: 2rem;
+    color: #39a900;
+}
+
+.acceso-enviar {
+    margin-bottom: 0.5rem;
+}
+
+/* Cambio obligatorio de contraseña */
+.cambio-clave {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding: 2rem;
+}
+
+.cambio-clave__tarjeta {
+    max-width: 450px;
+    width: 100%;
+    padding: 2rem;
+    border-top: 4px solid var(--primary-color);
+}
+
+.cambio-clave__cabecera {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.cambio-clave__cabecera > i {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.cambio-clave__cabecera p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+.cambio-clave__enviar {
+    width: 100%;
+    margin-top: 2rem;
+}
+
+.cambio-clave__salir {
+    width: 100%;
+    margin-top: 0.75rem;
+    justify-content: center;
+}
+
+.cambio-clave__guia {
+    max-width: 600px;
+    width: 100%;
+    padding: 2rem;
+}
+
+.cambio-clave__guia > h2 {
+    font-size: 1.2rem;
+    color: var(--primary-text-color);
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.cambio-clave__guia > p {
+    color: var(--text-main);
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+}
+
+.guia-pasos {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.guia-paso {
+    padding: 15px;
+    border-radius: 10px;
+    border-left: 4px solid var(--secondary-color);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.guia-paso--morado { border-left-color: #9b59b6; }
+
+.guia-paso h3 {
+    margin: 0 0 5px;
+    font-size: 1rem;
+}
+
+.guia-paso p,
+.guia-paso ul {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.guia-paso ul {
+    margin-top: 5px;
+    padding-left: 20px;
+}
+
+/* Perfil */
+.perfil-bienvenida {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.perfil-bienvenida > i {
+    font-size: 4rem;
+    color: var(--primary-color);
+    opacity: 0.3;
+    margin-bottom: 1.5rem;
+}
+
+.perfil-bienvenida p {
+    color: var(--text-muted);
+}
+
+.perfil-seccion {
+    padding: 2rem;
+}
+
+.perfil-seccion__titulo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 2rem;
+}
+
+.perfil-seccion__titulo img {
+    height: 25px;
+    width: auto;
+}
+
+.requisitos-foto {
+    margin-bottom: 1.5rem;
+    padding: 1.1rem 1.25rem;
+    border-radius: 12px;
+    border: 1px solid rgba(57, 169, 0, 0.22);
+    background: rgba(57, 169, 0, 0.06);
+}
+
+.requisitos-foto__titulo {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 0.75rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.requisitos-foto__titulo i { color: #39a900; }
+
+.requisitos-foto__texto {
+    margin: 0 0 0.9rem;
+    font-size: 0.87rem;
+    color: var(--text-muted);
+}
+
+.requisitos-foto ul {
+    margin: 0 0 0.5rem;
+    padding-left: 1.15rem;
+    font-size: 0.88rem;
+    line-height: 1.75;
+    color: var(--text-main);
+}
+
+.foto-previa {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.foto-previa img {
+    width: 120px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 2px solid var(--primary-color);
+}
+
+.foto-previa .btn-glow {
+    width: auto;
+}
+
+/* Gestión de perfiles */
+.header-title p {
+    margin: 0.25rem 0 0;
+}
+
+.filtros-tabla {
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-grid--tres {
+    grid-template-columns: 2fr 1fr 1fr !important;
+}
+
+.form-group--completo {
+    grid-column: 1 / -1;
+}
+
+.modal-content--sm { max-width: 450px !important; }
+.modal-content--lg { max-width: 720px !important; }
+
+.modal-actions--pie {
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.modal-actions--pie > * {
+    flex: 1 1 0;
+    width: auto;
+    justify-content: center;
+}
+
+.estado-vacio {
+    padding: 3rem 2rem;
+    text-align: center;
+}
+
+.estado-vacio > i {
+    font-size: 3rem;
+    color: #39a900;
+    opacity: 0.5;
+}
+
+.estado-vacio h2 {
+    margin: 1.25rem 0 0.5rem;
+    font-size: 1.15rem;
+}
+
+.estado-vacio p {
+    color: var(--text-muted);
+    margin: 0.75rem 0 1.25rem;
+}
+
+.estado-vacio--pagina {
+    max-width: 640px;
+    margin: 4rem auto;
+}
+
+.estado-vacio--pagina .glass-btn {
+    width: auto;
+    display: inline-flex;
+}
+
+.paginador {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1.25rem;
+    color: var(--text-muted);
+}
+
+.paginador__botones {
+    display: flex;
+    gap: 0.6rem;
+}
+
+/* Revisión de fotos */
+.cabecera-vista {
+    padding: 1.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.cabecera-vista h2 {
+    margin: 0 0 0.5rem;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cabecera-vista h2 i { color: #39a900; }
+
+.cabecera-vista p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    line-height: 1.6;
+}
+
+.rejilla-fotos {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 1.25rem;
+    align-items: stretch;
+}
+
+.tarjeta-foto {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    height: 100%;
+    padding: 1.25rem;
+}
+
+.foto-persona {
+    flex: 0 0 auto;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.datos-persona {
+    flex: 1 1 auto;
+}
+
+.datos-persona p {
+    margin: 0.15rem 0 0;
+    font-size: 0.84rem;
+    color: var(--text-muted);
+}
+
+.datos-persona .datos-persona__nombre {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--text-main);
+}
+
+.acciones-foto {
+    display: flex;
+    gap: 0.55rem;
+    margin-top: auto;
+}
+
+/* Sin .glass-btn: esa clase impone el verde con !important y dejaba Rechazar igual que Aprobar */
+.btn-revision {
+    flex: 1 1 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 44px;
+    padding: 0 0.8rem;
+    border: none;
+    border-radius: 10px;
+    white-space: nowrap;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #fff;
+    cursor: pointer;
+    transition: filter 0.2s, transform 0.1s;
+}
+
+.btn-revision:hover { filter: brightness(1.08); }
+.btn-revision:active { transform: translateY(1px); }
+.btn-revision:focus-visible { outline: 3px solid #1565c0; outline-offset: 2px; }
+.btn-revision:disabled { opacity: 0.55; cursor: not-allowed; }
+.btn-aprobar { background: #2e7d32; }
+.btn-rechazar { background: #c62828; }
+
+/* Carga */
+.skeleton {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.skeleton__linea {
+    display: block;
+    border-radius: 10px;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.05), rgba(57, 169, 0, 0.12), rgba(0, 0, 0, 0.05));
+    background-size: 200% 100%;
+    animation: skeleton-brillo 1.4s ease-in-out infinite;
+}
+
+@keyframes skeleton-brillo {
+    from { background-position: 200% 0; }
+    to { background-position: -200% 0; }
+}
+
+@media (max-width: 768px) {
+    .form-grid--tres { grid-template-columns: 1fr !important; }
+    .cambio-clave { padding: 0; }
+    .acceso-tarjeta,
+    .cambio-clave__tarjeta,
+    .cambio-clave__guia { padding: 1.5rem 1.25rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

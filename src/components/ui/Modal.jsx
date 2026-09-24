@@ -1,9 +1,9 @@
 import { useEffect, useId, useRef } from 'react'
 import { createPortal } from 'react-dom'
-import { X } from 'lucide-react'
 
 const ENFOCABLES = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
 
+// Modal de cristal de Portería 2 (glass-modal) con el foco atrapado mientras está abierto
 export default function Modal({ abierto, onCerrar, titulo, children, pie, ancho = 'md' }) {
   const caja = useRef(null)
   const idTitulo = useId()
@@ -20,7 +20,7 @@ export default function Modal({ abierto, onCerrar, titulo, children, pie, ancho 
     // El resto de la página queda inerte: ni el teclado ni el lector de pantalla salen del modal
     raiz.inert = true
     const elementos = () => [...caja.current.querySelectorAll(ENFOCABLES)].filter((e) => !e.disabled)
-    const primerCampo = caja.current.querySelector('.modal__cuerpo input, .modal__cuerpo select, .modal__cuerpo textarea')
+    const primerCampo = caja.current.querySelector('.modal-body input, .modal-body select, .modal-body textarea')
     ;(primerCampo || elementos()[0])?.focus()
 
     const teclado = (e) => {
@@ -51,16 +51,16 @@ export default function Modal({ abierto, onCerrar, titulo, children, pie, ancho 
   if (!abierto) return null
 
   return createPortal(
-    <div className="modal-velo" onMouseDown={(e) => e.target === e.currentTarget && onCerrar()}>
-      <div className={`modal modal--${ancho}`} role="dialog" aria-modal="true" aria-labelledby={idTitulo} ref={caja}>
-        <header className="modal__cabecera">
+    <div className="glass-modal active" onMouseDown={(e) => e.target === e.currentTarget && onCerrar()}>
+      <div className={`modal-content glass-card modal-content--${ancho}`} role="dialog" aria-modal="true" aria-labelledby={idTitulo} ref={caja}>
+        <div className="modal-header">
           <h2 id={idTitulo}>{titulo}</h2>
-          <button type="button" className="boton-icono" onClick={onCerrar} aria-label="Cerrar">
-            <X size={20} aria-hidden="true" />
+          <button type="button" className="close-btn" onClick={onCerrar} aria-label="Cerrar">
+            <i className="fas fa-times" aria-hidden="true" />
           </button>
-        </header>
-        <div className="modal__cuerpo">{children}</div>
-        {pie && <footer className="modal__pie">{pie}</footer>}
+        </div>
+        <div className="modal-body">{children}</div>
+        {pie && <div className="modal-actions modal-actions--pie">{pie}</div>}
       </div>
     </div>,
     document.body,

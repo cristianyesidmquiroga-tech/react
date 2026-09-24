@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useOptimistic, useState, useTransition } from 'react'
-import { ChevronLeft, ChevronRight, LockOpen, Pencil, Search, Trash2, UserPlus, Users } from 'lucide-react'
 import UsuarioForm from '../components/UsuarioForm'
 import Campo from '../components/ui/Campo'
 import Insignia from '../components/ui/Insignia'
@@ -97,28 +96,26 @@ export default function UsuariosPage() {
 
   return (
     <div>
-      <header className="pagina-cabecera">
-        <div>
-          <h1>Gestión de usuarios</h1>
-          <p>{data ? `${data.totalElements} personas registradas` : 'Cargando...'}</p>
+      <div className="header-actions">
+        <div className="header-title">
+          <h2>Gestión de Perfiles</h2>
+          <p className="texto-ayuda">{data ? `${data.totalElements} personas registradas` : 'Cargando...'}</p>
         </div>
-        <button type="button" className="boton boton--primario" onClick={() => setEditando(null)} disabled={!catalogos}>
-          <UserPlus size={18} aria-hidden="true" />
-          Nuevo usuario
-        </button>
-      </header>
+        <div className="action-buttons">
+          <button type="button" className="glass-btn btn-primary" onClick={() => setEditando(null)} disabled={!catalogos}>
+            <i className="fas fa-plus" aria-hidden="true" /> Nuevo Perfil
+          </button>
+        </div>
+      </div>
 
-      <section className="tarjeta">
-        <div className="formulario__fila filtros">
-          <Campo etiqueta="Buscar">
+      <div className="glass-card filtros-tabla modal-body">
+        <div className="form-grid form-grid--tres">
+          <Campo variante="grupo" etiqueta="Buscar">
             {(p) => (
-              <div className="campo-busqueda">
-                <Search size={18} aria-hidden="true" />
-                <input {...p} type="search" maxLength={100} placeholder="Nombre, correo o documento" value={texto} onChange={(e) => { setTexto(e.target.value); setPagina(0) }} />
-              </div>
+              <input {...p} type="search" maxLength={100} placeholder="Nombre, correo o documento" value={texto} onChange={(e) => { setTexto(e.target.value); setPagina(0) }} />
             )}
           </Campo>
-          <Campo etiqueta="Rol">
+          <Campo variante="grupo" etiqueta="Rol">
             {(p) => (
               <select {...p} value={rolId} onChange={(e) => { setRolId(e.target.value); setPagina(0) }}>
                 <option value="">Todos</option>
@@ -130,7 +127,7 @@ export default function UsuariosPage() {
               </select>
             )}
           </Campo>
-          <Campo etiqueta="Cargo">
+          <Campo variante="grupo" etiqueta="Cargo">
             {(p) => (
               <select {...p} value={cargo} onChange={(e) => { setCargo(e.target.value); setPagina(0) }}>
                 <option value="">Todos</option>
@@ -143,86 +140,87 @@ export default function UsuariosPage() {
             )}
           </Campo>
         </div>
+      </div>
 
+      <div className="glass-container">
         {cargando && !data && <Skeleton filas={8} alto="2.4rem" />}
         {error && (
-          <div className="estado estado--error" role="alert">
+          <div className="estado-vacio" role="alert">
+            <i className="fas fa-exclamation-triangle" aria-hidden="true" />
             <p>{error}</p>
-            <button type="button" className="boton boton--secundario" onClick={recargar}>
+            <button type="button" className="btn-outline" onClick={recargar}>
               Reintentar
             </button>
           </div>
         )}
         {!error && data && filas.length === 0 && (
-          <div className="estado">
-            <Users size={32} aria-hidden="true" />
+          <div className="estado-vacio">
+            <i className="fas fa-users" aria-hidden="true" />
             <p>No hay usuarios que coincidan con la búsqueda</p>
           </div>
         )}
         {!error && filas.length > 0 && (
-          <table className="tabla" aria-busy={cargando}>
-            <caption className="solo-lectores">Usuarios registrados</caption>
-            <thead>
-              <tr>
-                <th scope="col">Nombre</th>
-                <th scope="col">Documento</th>
-                <th scope="col">Rol</th>
-                <th scope="col">Cargo</th>
-                <th scope="col">Estado</th>
-                <th scope="col">
-                  <span className="solo-lectores">Acciones</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {filas.map((u) => (
-                <tr key={u.id}>
-                  <td data-titulo="Nombre">
-                    <div className="celda-nombre">
-                      <strong>{u.nombre}</strong>
-                      <span>{u.correo}</span>
-                    </div>
-                  </td>
-                  <td data-titulo="Documento">{u.documento || 'Sin registrar'}</td>
-                  <td data-titulo="Rol">{u.rol}</td>
-                  <td data-titulo="Cargo">{u.cargo || 'Sin cargo'}</td>
-                  <td data-titulo="Estado">
-                    {u.bloqueado ? (
-                      <Insignia tipo="peligro">Bloqueado</Insignia>
-                    ) : u.perfilCompleto ? (
-                      <Insignia tipo="exito">Carnet activo</Insignia>
-                    ) : (
-                      <Insignia tipo="aviso">Perfil incompleto</Insignia>
-                    )}
-                  </td>
-                  <td data-titulo="Acciones">
-                    <div className="acciones">
+          <div className="table-responsive">
+            <table className="glass-table" aria-busy={cargando}>
+              <caption className="solo-lectores">Usuarios registrados</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Documento</th>
+                  <th scope="col">Correo</th>
+                  <th scope="col">Cargo</th>
+                  <th scope="col">Rol</th>
+                  <th scope="col">Estado</th>
+                  <th scope="col">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filas.map((u) => (
+                  <tr key={u.id}>
+                    <td>{u.nombre}</td>
+                    <td>{u.documento || 'N/A'}</td>
+                    <td>{u.correo}</td>
+                    <td>
+                      <Insignia tipo={u.cargo === 'Aprendiz' ? 'info' : 'primary'}>{u.cargo || 'Sin Cargo'}</Insignia>
+                    </td>
+                    <td>{u.rol}</td>
+                    <td>
+                      {u.bloqueado ? (
+                        <Insignia tipo="danger">Bloqueado</Insignia>
+                      ) : u.perfilCompleto ? (
+                        <Insignia tipo="success">Carnet activo</Insignia>
+                      ) : (
+                        <Insignia tipo="warning">Perfil incompleto</Insignia>
+                      )}
+                    </td>
+                    <td className="action-cells">
                       {u.bloqueado && (
-                        <button type="button" className="boton-icono" onClick={() => desbloquear(u)} aria-label={`Desbloquear a ${u.nombre}`}>
-                          <LockOpen size={18} aria-hidden="true" />
+                        <button type="button" className="action-btn-glass action-btn-edit" onClick={() => desbloquear(u)} aria-label={`Desbloquear a ${u.nombre}`}>
+                          <i className="fas fa-lock-open" aria-hidden="true" /> Desbloquear
                         </button>
                       )}
-                      <button type="button" className="boton-icono" onClick={() => setEditando(u)} aria-label={`Editar a ${u.nombre}`}>
-                        <Pencil size={18} aria-hidden="true" />
+                      <button type="button" className="action-btn-glass action-btn-edit" onClick={() => setEditando(u)} aria-label={`Editar a ${u.nombre}`}>
+                        <i className="fas fa-edit" aria-hidden="true" /> Editar
                       </button>
-                      <button
-                        type="button"
-                        className="boton-icono"
-                        onClick={() => {
-                          setAutorizacion({ autorizadoPor: '', motivo: '' })
-                          setEliminando(u)
-                        }}
-                        disabled={u.rol === 'Admin' || u.id === yo?.id}
-                        aria-label={`Eliminar a ${u.nombre}`}
-                      >
-                        <Trash2 size={18} aria-hidden="true" />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                      {u.rol !== 'Admin' && u.id !== yo?.id && (
+                        <button
+                          type="button"
+                          className="action-btn-glass action-btn-delete"
+                          onClick={() => {
+                            setAutorizacion({ autorizadoPor: '', motivo: '' })
+                            setEliminando(u)
+                          }}
+                          aria-label={`Eliminar a ${u.nombre}`}
+                        >
+                          <i className="fas fa-trash-alt" aria-hidden="true" /> Eliminar
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
 
         {data && data.totalPages > 1 && (
@@ -231,31 +229,29 @@ export default function UsuariosPage() {
               Página {data.number + 1} de {data.totalPages}
             </span>
             <div className="paginador__botones">
-              <button type="button" className="boton boton--secundario" disabled={data.first} onClick={() => setPagina((p) => p - 1)}>
-                <ChevronLeft size={18} aria-hidden="true" />
-                Anterior
+              <button type="button" className="btn-outline" disabled={data.first} onClick={() => setPagina((p) => p - 1)}>
+                <i className="fas fa-chevron-left" aria-hidden="true" /> Anterior
               </button>
-              <button type="button" className="boton boton--secundario" disabled={data.last} onClick={() => setPagina((p) => p + 1)}>
-                Siguiente
-                <ChevronRight size={18} aria-hidden="true" />
+              <button type="button" className="btn-outline" disabled={data.last} onClick={() => setPagina((p) => p + 1)}>
+                Siguiente <i className="fas fa-chevron-right" aria-hidden="true" />
               </button>
             </div>
           </nav>
         )}
-      </section>
+      </div>
 
       <Modal
         abierto={editando !== undefined && Boolean(catalogos)}
         onCerrar={cerrarFormulario}
-        titulo={editando ? `Editar a ${editando.nombre}` : 'Nuevo usuario'}
+        titulo={editando ? 'Editar Perfil' : 'Nuevo Perfil'}
         ancho="lg"
         pie={
           <>
-            <button type="button" className="boton boton--secundario" onClick={cerrarFormulario}>
+            <button type="button" className="btn-outline" onClick={cerrarFormulario}>
               Cancelar
             </button>
-            <button type="submit" form="form-usuario" className="boton boton--primario" disabled={guardando}>
-              {guardando ? 'Guardando...' : 'Guardar'}
+            <button type="submit" form="form-usuario" className="glass-btn btn-primary" disabled={guardando}>
+              <i className="fas fa-save" aria-hidden="true" /> {guardando ? 'Guardando...' : editando ? 'Guardar Cambios' : 'Guardar Usuario'}
             </button>
           </>
         }
@@ -275,29 +271,29 @@ export default function UsuariosPage() {
       <Modal
         abierto={Boolean(eliminando)}
         onCerrar={() => setEliminando(null)}
-        titulo="Eliminar usuario"
+        titulo="Autorización de Cambio"
         ancho="sm"
         pie={
           <>
-            <button type="button" className="boton boton--secundario" onClick={() => setEliminando(null)}>
-              Cancelar
+            <button type="button" className="glass-btn btn-cancel" onClick={() => setEliminando(null)}>
+              <i className="fas fa-times" aria-hidden="true" /> No, Cancelar
             </button>
-            <button type="button" className="boton boton--peligro" onClick={confirmarEliminacion}>
-              Eliminar
+            <button type="button" className="glass-btn btn-danger-action" onClick={confirmarEliminacion}>
+              <i className="fas fa-trash-alt" aria-hidden="true" /> Sí, Eliminar
             </button>
           </>
         }
       >
-        <div className="formulario">
-          <p>
+        <div className="floating-form">
+          <p className="texto-ayuda">
             Se eliminará a <strong>{eliminando?.nombre}</strong> con su foto y sus datos. Esta acción no se puede deshacer.
           </p>
-          <Campo etiqueta="Autorizado por">
+          <Campo etiqueta="¿Quién autoriza el cambio?">
             {(p) => (
               <input {...p} maxLength={100} value={autorizacion.autorizadoPor} onChange={(e) => setAutorizacion((a) => ({ ...a, autorizadoPor: e.target.value }))} />
             )}
           </Campo>
-          <Campo etiqueta="Motivo">
+          <Campo etiqueta="Motivo o Descripción">
             {(p) => (
               <textarea {...p} maxLength={500} value={autorizacion.motivo} onChange={(e) => setAutorizacion((a) => ({ ...a, motivo: e.target.value }))} />
             )}

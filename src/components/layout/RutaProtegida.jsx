@@ -1,6 +1,6 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
-import Skeleton from '../ui/Skeleton'
+import logoSena from '../../assets/img/logoSena.png'
 
 // La API es quien decide los permisos; esto solo evita mostrar pantallas que igual responderían 403
 export default function RutaProtegida({ permiso }) {
@@ -9,8 +9,11 @@ export default function RutaProtegida({ permiso }) {
 
   if (cargando) {
     return (
-      <div className="pantalla-carga">
-        <Skeleton filas={4} />
+      <div id="global-loader" role="status" aria-label="Cargando">
+        <div className="loader-content">
+          <div className="loader-spinner" />
+          <img src={logoSena} alt="" />
+        </div>
       </div>
     )
   }

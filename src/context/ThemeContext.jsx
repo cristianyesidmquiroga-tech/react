@@ -1,23 +1,24 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 
 const ThemeContext = createContext(null)
-const CLAVE = 'tema'
+// Misma clave y mismo atributo que Portería 2
+const CLAVE = 'theme'
 
 function temaInicial() {
   try {
-    const guardado = localStorage.getItem(CLAVE)
-    if (guardado === 'light' || guardado === 'dark') return guardado
+    return localStorage.getItem(CLAVE) === 'dark' ? 'dark' : 'light'
   } catch {
-    // sin acceso a localStorage se usa la preferencia del sistema
+    return 'light'
   }
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 }
 
 export function ThemeProvider({ children }) {
   const [tema, setTema] = useState(temaInicial)
 
   useEffect(() => {
-    document.documentElement.dataset.theme = tema
+    const raiz = document.documentElement
+    if (tema === 'dark') raiz.setAttribute('data-theme', 'dark')
+    else raiz.removeAttribute('data-theme')
     try {
       localStorage.setItem(CLAVE, tema)
     } catch {

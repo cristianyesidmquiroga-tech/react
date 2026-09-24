@@ -1,10 +1,18 @@
 import { useEffect, useRef } from 'react'
 import JsBarcode from 'jsbarcode'
-import { Lock, UserRound } from 'lucide-react'
-import './carnet.css'
+import logoSena from '../assets/img/logoSena.png'
+import { avatarDeCargo } from './ui/FotoUsuario'
 
-// Code128 del documento, el mismo formato que lee el escáner de portería
-export default function CarnetDigital({ carnet, fotoUrl }) {
+// Datos del centro que imprime el carnet: se cambian por .env para instalarlo en otra sede
+const REGIONAL = import.meta.env.VITE_CARNET_REGIONAL || 'Regional Santander'
+const CENTRO = import.meta.env.VITE_CARNET_CENTRO || 'Centro de Gestión Agroempresarial del Oriente'
+const ASEGURADORA = import.meta.env.VITE_CARNET_ASEGURADORA || ''
+const ASEGURADORA_TEL = import.meta.env.VITE_CARNET_ASEGURADORA_TEL || ''
+const POLIZA = import.meta.env.VITE_CARNET_POLIZA || ''
+
+// Formato oficial del SENA: logo y foto arriba, perfil subrayado, datos y pie con regional y centro.
+// El código de barras es Code128 del documento, el mismo que lee el escáner de portería.
+export default function CarnetDigital({ carnet, fotoUrl, cargo }) {
   const barras = useRef(null)
 
   useEffect(() => {
@@ -20,52 +28,80 @@ export default function CarnetDigital({ carnet, fotoUrl }) {
 
   if (!carnet) return null
   const aprendiz = carnet.perfil === 'APRENDIZ'
+  const [abreviatura, ...numero] = (carnet.documento || '').split(' ')
 
   return (
-    <article className={`carnet${carnet.activo ? '' : ' carnet--inactivo'}`} aria-label="Carnet digital">
-      <header className="carnet__cabecera">
-        <strong>SENA</strong>
-        <span className="carnet__perfil">{carnet.perfil}</span>
-      </header>
-      <div className="carnet__cuerpo">
-        <div className="carnet__foto">
-          {fotoUrl ? (
-            <img src={fotoUrl} alt="Foto del carnet" width="112" height="140" />
-          ) : (
-            <UserRound size={56} aria-hidden="true" />
-          )}
+    <div className={`carnet-oficial carnet-oficial--${carnet.perfil.toLowerCase()}`} id="carnet-capture">
+      <div className="carnet-of-cabecera">
+        <img className="carnet-of-logo" src={logoSena} alt="SENA" width="64" height="64" />
+        <div className="carnet-of-foto">
+          <img src={fotoUrl || avatarDeCargo(cargo)} alt={`Fotografía de ${carnet.nombres}`} width="120" height="150" decoding="async" />
         </div>
-        <dl className="carnet__datos">
-          <dt className="solo-lectores">Nombres</dt>
-          <dd className="carnet__nombres">{carnet.nombres}</dd>
-          <dt className="solo-lectores">Apellidos</dt>
-          <dd className="carnet__apellidos">{carnet.apellidos}</dd>
-          <dt>Documento</dt>
-          <dd>{carnet.documento || 'Sin registrar'}</dd>
-          <dt>RH</dt>
-          <dd>{carnet.tipoSangre || 'Sin registrar'}</dd>
-          {aprendiz && (
-            <>
-              <dt>Ficha</dt>
-              <dd>{carnet.ficha || 'Sin ficha'}</dd>
-              <dt>Programa</dt>
-              <dd>{carnet.programa || 'Sin programa'}</dd>
-              <dt>Finaliza</dt>
-              <dd>{carnet.fechaFinalizacion || 'Sin fecha'}</dd>
-            </>
-          )}
-        </dl>
       </div>
-      <footer className="carnet__pie">
+
+      <h2 className="carnet-of-perfil">{carnet.perfil}</h2>
+
+      <dl className="carnet-of-datos">
+        <div className="carnet-of-fila">
+          <dt>Nombres</dt>
+          <dd>{carnet.nombres || '—'}</dd>
+        </div>
+        <div className="carnet-of-fila">
+          <dt>Apellidos</dt>
+          <dd>{carnet.apellidos || '—'}</dd>
+        </div>
+        <div className="carnet-of-fila carnet-of-documento">
+          <dt>{abreviatura || (aprendiz ? 'Tip.' : 'C.C.')}</dt>
+          <dd>{numero.join(' ') || '—'}</dd>
+        </div>
+        <div className="carnet-of-fila">
+          <dt>RH</dt>
+          <dd className="carnet-of-rh">{carnet.tipoSangre || '—'}</dd>
+        </div>
+        {aprendiz && (
+          <>
+            <div className="carnet-of-fila">
+              <dt>Ficha de Formación No.</dt>
+              <dd>{carnet.ficha || '—'}</dd>
+            </div>
+            <div className="carnet-of-fila">
+              <dt>Fecha de Finalización</dt>
+              <dd>{carnet.fechaFinalizacion || '—'}</dd>
+            </div>
+            <div className="carnet-of-fila carnet-of-programa">
+              <dd>{carnet.programa || 'Programa sin asignar'}</dd>
+            </div>
+          </>
+        )}
+      </dl>
+
+      {aprendiz && ASEGURADORA && (
+        <div className="carnet-of-poliza">
+          <p>{ASEGURADORA}</p>
+          {ASEGURADORA_TEL && <p>Tel: {ASEGURADORA_TEL}</p>}
+          {POLIZA && <p>Póliza No. {POLIZA}</p>}
+        </div>
+      )}
+
+      <div className="carnet-of-barras">
         {carnet.activo ? (
-          <svg ref={barras} className="carnet__barras" role="img" aria-label={`Código de barras ${carnet.codigoBarras}`} />
+          <>
+            <div className="carnet-of-barras-caja">
+              <svg ref={barras} role="img" aria-label={`Código de barras ${carnet.codigoBarras}`} />
+            </div>
+            <span className="carnet-of-barras-texto">{carnet.codigoBarras}</span>
+          </>
         ) : (
-          <p className="carnet__bloqueo">
-            <Lock size={16} aria-hidden="true" />
-            Completa tu perfil y espera la aprobación de tu foto para activar el carnet
+          <p className="carnet-of-bloqueado">
+            <i className="fas fa-lock" aria-hidden="true" /> Carnet bloqueado: completa tu perfil y espera la aprobación de tu foto.
           </p>
         )}
-      </footer>
-    </article>
+      </div>
+
+      <div className="carnet-of-pie">
+        <strong>{REGIONAL}</strong>
+        <em>{CENTRO}</em>
+      </div>
+    </div>
   )
 }

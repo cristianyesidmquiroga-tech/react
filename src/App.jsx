@@ -1,17 +1,18 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import MainLayout from './components/layout/MainLayout'
 import RutaProtegida from './components/layout/RutaProtegida'
+import FondoParticulas from './components/ui/FondoParticulas'
 import CambioContrasenaPage from './pages/CambioContrasenaPage'
 import LoginPage from './pages/LoginPage'
 import NoEncontradaPage from './pages/NoEncontradaPage'
 import PerfilPage from './pages/PerfilPage'
 import RevisionFotosPage from './pages/RevisionFotosPage'
 import UsuariosPage from './pages/UsuariosPage'
-import './pages/admin.css'
 
 export default function App() {
   return (
     <BrowserRouter>
+      <FondoParticulas />
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route element={<RutaProtegida />}>

@@ -1,14 +1,13 @@
 import { Link } from 'react-router-dom'
-import { MapPinOff } from 'lucide-react'
 
 export default function NoEncontradaPage() {
   return (
-    <div className="estado">
-      <MapPinOff size={40} aria-hidden="true" />
-      <h1>Página no encontrada</h1>
-      <p>La dirección no existe o ya no está disponible.</p>
-      <Link className="boton boton--secundario" to="/perfil">
-        Ir a mi perfil
+    <div className="glass-card estado-vacio estado-vacio--pagina">
+      <i className="fas fa-map-signs" aria-hidden="true" />
+      <h2>Página no encontrada</h2>
+      <p>La dirección que buscas no existe o fue movida.</p>
+      <Link to="/perfil" className="glass-btn">
+        <i className="fas fa-home" aria-hidden="true" /> Volver al inicio
       </Link>
     </div>
   )

@@ -1,0 +1,219 @@
+/* Glass Card base */
+.card, .glass-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 2.5rem;
+    border-radius: 24px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255,255,255,0.7);
+    margin-bottom: 2rem;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+[data-theme="dark"] .card, [data-theme="dark"] .glass-card {
+    background: rgba(30,39,46, 0.85);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255,255,255,0.05);
+}
+
+.card:hover { box-shadow: 0 10px 25px var(--shadow), inset 0 0 0 1px rgba(255,255,255,1); }
+[data-theme="dark"] .card:hover { box-shadow: 0 10px 25px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.15); }
+
+.card::before {
+    content: ''; position: absolute; top: -50px; right: -50px; width: 100px; height: 100px;
+    background: var(--pastel-green); border-radius: 50%; z-index: 0;
+}
+
+.card h2 { text-align: center; color: var(--secondary-text); margin-bottom: 2rem; font-size: 1.5rem; }
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 28px; padding: 3rem;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+}
+
+.glass-card::after {
+    content: ''; position: absolute; top: -150%; left: -150%; width: 300%; height: 300%;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+    transform: rotate(45deg); transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1); pointer-events: none;
+}
+.glass-card:hover::after { left: 150%; }
+.glass-card:hover { transform: translateY(-10px) rotateX(5deg) rotateY(1deg); box-shadow: 0 30px 60px rgba(0,0,0,0.12); }
+
+/* Basic Buttons */
+/* var(--primary-color) = #39A900 solido con texto blanco da 3.07:1: no
+   llega a 4.5:1. Se fija un verde mas oscuro solo para este boton en vez
+   de cambiar la variable global (la usan tambien iconos y bordes donde
+   #39A900 si es valido, por ser elementos grandes/no textuales). */
+.btn-primary {
+    background-color: #2d8500; color: var(--white);
+    padding: 0.75rem 1.5rem; border: none; border-radius: 8px; font-weight: 600;
+    cursor: pointer; transition: background 0.3s;
+}
+.btn-primary:hover { background-color: #256a00; opacity: 1; }
+.btn-primary:active { transform: scale(0.98); }
+.btn-primary:focus-visible {
+    outline: 3px solid #ffffff;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 5px rgba(21, 101, 192, 0.6);
+}
+.btn-primary:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.btn-delete { color: #a93226; padding: 0.5rem; cursor: pointer; transition: transform 0.2s; }
+.btn-delete:hover { transform: scale(1.2); }
+.btn-delete:focus-visible { outline: 3px solid #1565C0; outline-offset: 2px; }
+
+/* Premium Glow Buttons
+   OJO: .btn-glow tambien se define en botones.css con !important en
+   background/color/padding/border-radius; esas propiedades ganan siempre
+   sobre las de aqui (que no llevan !important), asi que el color real
+   renderizado es el de botones.css (ya corregido a AA). Las propiedades
+   que SI vienen de aqui son box-shadow y los detalles del :hover (esas no
+   estan en botones.css o no llevan !important). No se borra esta regla
+   para no romper esos estilos, pero es la razon de la duplicacion. */
+.btn-glow {
+    background: linear-gradient(135deg, var(--primary-color), #4cd137);
+    color: white; border: none; border-radius: 15px; padding: 14px 28px;
+    font-size: 1rem; font-weight: 700; cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex;
+    align-items: center; justify-content: center; gap: 10px;
+    box-shadow: 0 10px 20px rgba(57, 169, 0, 0.2); position: relative; overflow: hidden;
+}
+
+.btn-glow::after {
+    content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+    background: rgba(255, 255, 255, 0.2); transform: rotate(45deg) translateY(-100%);
+    transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.btn-glow:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 15px 30px rgba(57, 169, 0, 0.4); filter: brightness(1.1); }
+.btn-glow:hover::after { transform: rotate(45deg) translateY(100%); }
+.btn-glow i { font-size: 1.1rem; transition: transform 0.4s ease; }
+.btn-glow:hover i { transform: rotate(15deg) scale(1.2); }
+.btn-glow:active { transform: translateY(-2px) scale(0.98); }
+
+/* Magnetic Button Base */
+.magnetic-btn { transition: transform 0.1s linear; }
+
+/* Alerts */
+.alert { padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; }
+.alert-success { background: #D4EDDA; color: #155724; }
+.alert-danger { background: #F8D7DA; color: #721C24; }
+/* Global Footer Links (Login/Register alternates) */
+html .glass-footer-link, 
+html[data-theme="dark"] .glass-footer-link,
+body .glass-footer-link {
+    color: var(--primary-color) !important;
+    font-weight: 700 !important;
+    text-decoration: underline !important;
+    text-underline-offset: 4px;
+    position: relative;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.glass-footer-link:visited, 
+html[data-theme="dark"] .glass-footer-link:visited {
+    color: var(--primary-color) !important;
+}
+
+.glass-footer-link:hover,
+html[data-theme="dark"] .glass-footer-link:hover {
+    color: var(--primary-color) !important;
+    filter: brightness(1.3);
+    text-decoration: underline !important;
+}
+
+.glass-footer-link:active {
+    color: var(--primary-color) !important;
+}
+
+/* ==========================================================================
+   Correcciones de contraste y de acciones destructivas
+   ========================================================================== */
+
+/* La clase .glass-btn impone el verde del SENA con !important, y en los modales
+   de confirmacion dejaba "Si, Eliminar" IDENTICO a "No, Cancelar". Borrar un
+   usuario es irreversible: los dos botones tienen que distinguirse a simple
+   vista. Se gana con mayor especificidad ademas de !important, porque
+   botones.css tambien usa !important. */
+.confirm-modal-actions .btn-danger-action,
+.confirm-modal-actions .glass-btn.btn-danger-action {
+    background: #C62828 !important;
+    color: #ffffff !important;
+}
+
+.confirm-modal-actions .btn-danger-action:hover,
+.confirm-modal-actions .glass-btn.btn-danger-action:hover {
+    background: #B71C1C !important;
+}
+
+.confirm-modal-actions .btn-cancel,
+.confirm-modal-actions .glass-btn.btn-cancel {
+    background: transparent !important;
+    color: var(--text-main) !important;
+    border: 1px solid var(--glass-border, rgba(0, 0, 0, 0.18)) !important;
+}
+
+.confirm-modal-actions .btn-cancel:hover,
+.confirm-modal-actions .glass-btn.btn-cancel:hover {
+    background: rgba(0, 0, 0, 0.05) !important;
+}
+
+.confirm-modal-actions .btn-danger-action:focus-visible,
+.confirm-modal-actions .btn-cancel:focus-visible {
+    outline: 3px solid #1565C0 !important;
+    outline-offset: 2px;
+}
+
+/* Acciones de cabecera en una sola fila, cada boton a su ancho: .glass-btn
+   impone width:100% y los dejaba como dos barras apiladas de lado a lado. */
+.header-actions .action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+}
+
+.header-actions .action-buttons .glass-btn {
+    width: auto;
+}
+
+/* Las clases .badge* se usan en la tabla de gestion de perfiles pero no tenian
+   ninguna regla en todo el proyecto: "Verificado", "Pendiente" y "Bloqueado" se
+   veian como texto plano identico. Un admin revisando decenas de cuentas no
+   podia distinguir el estado de un vistazo. Todos los colores usados aqui
+   superan 4.5:1 sobre texto blanco (WCAG AA). */
+.badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1.5;
+    white-space: nowrap;
+    color: #ffffff;
+    background: #546E7A;
+}
+
+.badge-success { background: #2E7D32; }   /* 5.13:1 */
+.badge-warning { background: #B45309; }   /* 4.79:1 - ambar oscuro, el claro no llega */
+.badge-danger  { background: #C62828; }   /* 5.87:1 */
+.badge-info    { background: #1565C0; }   /* 5.78:1 */
+.badge-primary { background: #00695C; }   /* 5.62:1 */
+
+/* En tema oscuro se aclaran un punto para no perder contraste contra el fondo
+   de la fila, manteniendo el texto oscuro encima. */
+[data-theme="dark"] .badge-success { background: #66BB6A; color: #10240f; }
+[data-theme="dark"] .badge-warning { background: #FFB74D; color: #2b1a00; }
+[data-theme="dark"] .badge-danger  { background: #EF5350; color: #2a0a0a; }
+[data-theme="dark"] .badge-info    { background: #64B5F6; color: #06203a; }
+[data-theme="dark"] .badge-primary { background: #4DB6AC; color: #06231f; }

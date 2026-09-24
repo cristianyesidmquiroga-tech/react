@@ -1,39 +1,54 @@
-import { LogOut, Menu, Moon, Sun, X } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { useTema } from '../../context/ThemeContext'
+import logoSena from '../../assets/img/logoSena.png'
+import FotoUsuario from '../ui/FotoUsuario'
 
-export default function Navbar({ menuAbierto, onAlternarMenu }) {
-  const { usuario, logout } = useAuth()
+export function BotonTema({ className = 'theme-switch' }) {
   const { tema, alternar } = useTema()
+  return (
+    <button type="button" className={`${className} theme-icon-btn`} onClick={alternar} aria-label="Cambiar Tema" title="Cambiar Tema">
+      <i className={`fas ${tema === 'dark' ? 'fa-sun' : 'fa-moon'}`} aria-hidden="true" />
+    </button>
+  )
+}
+
+export default function Navbar({ titulo, menuAbierto, onAbrirMenu }) {
+  const { usuario } = useAuth()
 
   return (
-    <header className="barra">
-      <button
-        type="button"
-        className="boton-icono barra__hamburguesa"
-        onClick={onAlternarMenu}
-        aria-expanded={menuAbierto}
-        aria-controls="menu-lateral"
-        aria-label={menuAbierto ? 'Cerrar menú' : 'Abrir menú'}
-      >
-        {menuAbierto ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}
-      </button>
-      <div className="barra__usuario">
-        <strong>{usuario?.nombre}</strong>
-        <span>{usuario?.cargo || usuario?.rol}</span>
+    <header className="top-header">
+      <div className="header-container">
+        <button
+          type="button"
+          id="menu-toggle"
+          className="menu-toggle"
+          onClick={onAbrirMenu}
+          aria-expanded={menuAbierto}
+          aria-controls="sidebar-main"
+          aria-label="Abrir menú"
+        >
+          <i className="fas fa-bars" aria-hidden="true" />
+        </button>
+        <div className="logo-header-group">
+          <img src={logoSena} alt="SENA Logo" className="header-logo" />
+          <h1 className="page-title highlight-rainbow text-3d">{titulo}</h1>
+        </div>
+        <div className="header-acciones">
+          <BotonTema />
+          <Link to="/perfil" className="user-pill user-pill--enlace">
+            <FotoUsuario
+              usuarioId={usuario && usuario.fotoEstado !== 'sin_foto' ? usuario.id : null}
+              cargo={usuario?.cargo}
+              alt="Tu foto de perfil"
+              className="nav-user-photo"
+              width="38"
+              height="38"
+            />
+            <span>{usuario?.nombre}</span>
+          </Link>
+        </div>
       </div>
-      <button
-        type="button"
-        className="boton-icono"
-        onClick={alternar}
-        aria-label={tema === 'dark' ? 'Usar tema claro' : 'Usar tema oscuro'}
-      >
-        {tema === 'dark' ? <Sun size={20} aria-hidden="true" /> : <Moon size={20} aria-hidden="true" />}
-      </button>
-      <button type="button" className="boton boton--fantasma" onClick={logout}>
-        <LogOut size={18} aria-hidden="true" />
-        <span>Salir</span>
-      </button>
     </header>
   )
 }

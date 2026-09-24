@@ -1,38 +1,37 @@
-import { NavLink } from 'react-router-dom'
-import { ImageUp, ShieldCheck, UserRound, Users } from 'lucide-react'
+import { Link, NavLink } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
+import logoSena from '../../assets/img/logoSena.png'
 
 // Cada enlace dice qué permiso necesita; el menú solo pinta lo que la persona puede usar
 const ENLACES = [
-  { a: '/perfil', texto: 'Mi perfil', icono: UserRound },
-  { a: '/admin/usuarios', texto: 'Gestión de usuarios', icono: Users, permiso: 'admin' },
-  { a: '/admin/fotos', texto: 'Revisar fotos', icono: ImageUp, permiso: 'admin' },
+  { a: '/admin/usuarios', texto: 'Gestión Perfiles', icono: 'fa-users-cog', permiso: 'admin' },
+  { a: '/admin/fotos', texto: 'Revisar Fotos', icono: 'fa-user-check', permiso: 'admin' },
+  { a: '/perfil', texto: 'Mi Perfil', icono: 'fa-id-card' },
 ]
 
-export default function Sidebar({ abierto, onNavegar }) {
-  const { usuario } = useAuth()
+export default function Sidebar({ abierto, onCerrar }) {
+  const { usuario, logout } = useAuth()
   const visibles = ENLACES.filter((e) => !e.permiso || usuario?.permisos?.[e.permiso])
 
   return (
-    <aside id="menu-lateral" className={`menu${abierto ? ' menu--abierto' : ''}`} aria-label="Menú principal">
-      <div className="menu__marca">
-        <ShieldCheck size={30} aria-hidden="true" />
-        <div>
-          <strong>Portería SENA</strong>
-          <span>Control de acceso</span>
-        </div>
+    <aside id="sidebar-main" className={`sidebar${abierto ? ' active' : ''}`} aria-label="Menú principal">
+      <button type="button" className="sidebar-close" onClick={onCerrar} aria-label="Cerrar menú">
+        <i className="fas fa-times" aria-hidden="true" />
+      </button>
+      <div className="sidebar-header">
+        <img src={logoSena} alt="SENA" className="sidebar-logo" />
+        <p className="highlight-rainbow">Centro de formación SENA</p>
       </div>
-      <nav>
-        <ul className="menu__lista">
-          {visibles.map(({ a, texto, icono: Icono }) => (
-            <li key={a}>
-              <NavLink to={a} className="menu__enlace" onClick={onNavegar}>
-                <Icono size={20} aria-hidden="true" />
-                {texto}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
+      <nav className="sidebar-nav">
+        {visibles.map(({ a, texto, icono }) => (
+          <NavLink key={a} to={a} className="stagger-item" onClick={onCerrar}>
+            <i className={`fas ${icono}`} aria-hidden="true" /> <span>{texto}</span>
+          </NavLink>
+        ))}
+        {/* Separado y en rojo: es la única acción del menú que saca del sistema */}
+        <Link to="/login" className="stagger-item enlace-cerrar-sesion" onClick={logout}>
+          <i className="fas fa-sign-out-alt" aria-hidden="true" /> <span>Cerrar Sesión</span>
+        </Link>
       </nav>
     </aside>
   )

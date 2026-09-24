@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import { Camera, CircleAlert, Save } from 'lucide-react'
 import CarnetDigital from '../components/CarnetDigital'
 import Campo from '../components/ui/Campo'
 import Insignia from '../components/ui/Insignia'
@@ -8,13 +7,13 @@ import { useAuth } from '../context/AuthContext'
 import { useNotificacion } from '../context/NotificationContext'
 import { useFotoProtegida } from '../hooks/useFotoProtegida'
 import { catalogoService, perfilService } from '../services/api'
-import './perfil.css'
+import logoSena from '../assets/img/logoSena.png'
 
 const ESTADOS_FOTO = {
   sin_foto: ['info', 'Sin foto'],
-  pendiente: ['aviso', 'En revisión'],
-  aprobada: ['exito', 'Aprobada'],
-  rechazada: ['peligro', 'Rechazada'],
+  pendiente: ['warning', 'En revisión'],
+  aprobada: ['success', 'Aprobada'],
+  rechazada: ['danger', 'Rechazada'],
 }
 const TAMANO_MAXIMO = 8 * 1024 * 1024
 
@@ -44,6 +43,7 @@ export default function PerfilPage() {
   const [subiendo, setSubiendo] = useState(false)
   const [versionFoto, setVersionFoto] = useState(0)
   const [errorCarga, setErrorCarga] = useState(null)
+  const [seccion, setSeccion] = useState(null)
   const entradaFoto = useRef(null)
   const fotoUrl = useFotoProtegida(perfil?.tieneFoto ? perfil.id : null, versionFoto)
 
@@ -63,10 +63,10 @@ export default function PerfilPage() {
 
   if (errorCarga) {
     return (
-      <p className="alerta alerta--peligro" role="alert">
-        <CircleAlert size={18} aria-hidden="true" />
-        {errorCarga}
-      </p>
+      <div className="error-alert" role="alert">
+        <i className="fas fa-exclamation-circle" aria-hidden="true" />
+        <span>{errorCarga}</span>
+      </div>
     )
   }
   if (!perfil || !datos || !catalogos) return <Skeleton filas={8} alto="2.2rem" />
@@ -133,121 +133,155 @@ export default function PerfilPage() {
   }
 
   return (
-    <div className="perfil">
-      <header className="pagina-cabecera">
-        <div>
-          <h1>Mi perfil</h1>
-          <p>{perfil.correo}</p>
-        </div>
-      </header>
+    <div className="profile-container">
+      <div className="profile-quick-actions">
+        <button
+          type="button"
+          className="btn-action gradient-blue stagger-item magnetic-btn"
+          aria-pressed={seccion === 'info'}
+          onClick={() => setSeccion('info')}
+        >
+          <i className="fas fa-user-edit" aria-hidden="true" /> Información
+        </button>
+      </div>
 
-      <div className="perfil__rejilla">
-        <section className="perfil__carnet" aria-labelledby="titulo-carnet">
-          <h2 id="titulo-carnet" className="solo-lectores">Carnet digital</h2>
-          <CarnetDigital carnet={carnet} fotoUrl={fotoUrl} />
-
-          <div className="tarjeta perfil__foto">
-            <div className="perfil__foto-estado">
-              <h2>Foto del carnet</h2>
-              <Insignia tipo={tipoEstado}>{textoEstado}</Insignia>
-            </div>
-            {perfil.fotoEstado === 'rechazada' && perfil.fotoMotivo && (
-              <p className="alerta alerta--peligro">
-                <CircleAlert size={18} aria-hidden="true" />
-                <span>Motivo del rechazo: {perfil.fotoMotivo}</span>
-              </p>
-            )}
-            <p className="campo__ayuda">
-              Foto de frente, solo tú, con buena luz y sin gafas oscuras. JPG, PNG o BMP de máximo 8 MB.
+      <div className="profile-split-layout">
+        <div className="left-wing">
+          <CarnetDigital carnet={carnet} fotoUrl={fotoUrl} cargo={perfil.cargo} />
+          {!carnet?.activo && (
+            <p className="carnet-aviso">
+              {perfil.fotoEstado === 'pendiente' ? (
+                'Tu foto está en revisión. En cuanto un administrador la apruebe, el código de barras de tu carnet se activa.'
+              ) : (
+                <>
+                  Completa tus datos en <strong>Información</strong> para activar el código de barras de tu carnet.
+                </>
+              )}
             </p>
-            {vistaPrevia && <img className="perfil__vista-previa" src={vistaPrevia} alt="Vista previa de la foto nueva" width="140" height="175" />}
-            <input
-              ref={entradaFoto}
-              id="entrada-foto"
-              className="solo-lectores"
-              type="file"
-              accept="image/jpeg,image/png,image/bmp"
-              onChange={elegirFoto}
-            />
-            <div className="perfil__foto-acciones">
-              <label htmlFor="entrada-foto" className="boton boton--secundario">
-                <Camera size={18} aria-hidden="true" />
-                Elegir foto
-              </label>
-              <button type="button" className="boton boton--primario" disabled={!archivo || subiendo} onClick={subirFoto}>
-                {subiendo ? 'Enviando...' : 'Enviar foto'}
-              </button>
-            </div>
-          </div>
-        </section>
+          )}
+        </div>
 
-        <section className="tarjeta" aria-labelledby="titulo-datos">
-          <h2 id="titulo-datos" className="perfil__subtitulo">Datos personales</h2>
-          <form className="formulario" onSubmit={guardar} noValidate>
-            <div className="formulario__fila">
-              <Campo etiqueta="Nombres" error={errores.nombres}>
-                {(p) => <input {...p} name="nombres" maxLength={100} value={datos.nombres} onChange={cambiar} />}
-              </Campo>
-              <Campo etiqueta="Apellidos" error={errores.apellidos}>
-                {(p) => <input {...p} name="apellidos" maxLength={100} value={datos.apellidos} onChange={cambiar} />}
-              </Campo>
+        <div className="right-wing">
+          {seccion !== 'info' ? (
+            <div className="glass-card perfil-bienvenida">
+              <i className="fas fa-fingerprint" aria-hidden="true" />
+              <h2 className="text-3d">Centro de Gestión</h2>
+              <p>Selecciona una acción arriba para gestionar tus datos.</p>
             </div>
-            <div className="formulario__fila">
-              <Campo etiqueta="Tipo de documento">
-                {(p) => (
-                  <select {...p} name="tipoDocumento" value={datos.tipoDocumento} onChange={cambiar}>
-                    {catalogos.tiposDocumento.map((t) => (
-                      <option key={t.codigo} value={t.codigo}>
-                        {t.etiqueta}
-                      </option>
-                    ))}
-                  </select>
+          ) : (
+            <section className="glass-card perfil-seccion" aria-labelledby="titulo-datos">
+              <h2 id="titulo-datos" className="text-3d perfil-seccion__titulo">
+                <img src={logoSena} alt="" /> Actualizar Datos
+              </h2>
+
+              <div className="requisitos-foto">
+                <p className="requisitos-foto__titulo">
+                  <i className="fas fa-camera-retro" aria-hidden="true" /> Cómo debe ser tu foto
+                  <Insignia tipo={tipoEstado}>{textoEstado}</Insignia>
+                </p>
+                <p className="requisitos-foto__texto">En portería el celador compara esta foto contigo para dejarte entrar.</p>
+                <ul>
+                  <li>
+                    <strong>Solo tú.</strong> Nadie más puede aparecer en la imagen, ni siquiera de fondo.
+                  </li>
+                  <li>
+                    <strong>El rostro despejado y bien visible.</strong> Sin gorra, capucha, mascarilla ni nada que tape la cara.
+                  </li>
+                  <li>
+                    <strong>Con buena luz</strong>, de frente y de cerca, tipo foto de documento.
+                  </li>
+                </ul>
+                {perfil.fotoEstado === 'rechazada' && perfil.fotoMotivo && (
+                  <div className="error-alert">
+                    <i className="fas fa-times-circle" aria-hidden="true" />
+                    <span>Motivo del rechazo: {perfil.fotoMotivo}</span>
+                  </div>
                 )}
-              </Campo>
-              <Campo etiqueta="Número de documento" error={errores.documento} ayuda={formato && `Debe tener ${formato}`} requerido>
-                {(p) => <input {...p} name="documento" inputMode="numeric" maxLength={20} value={datos.documento} onChange={cambiar} />}
-              </Campo>
-            </div>
-            <div className="formulario__fila">
-              <Campo etiqueta="Tipo de sangre (RH)" requerido>
-                {(p) => (
-                  <select {...p} name="tipoSangre" value={datos.tipoSangre} onChange={cambiar}>
-                    <option value="">Selecciona</option>
-                    {catalogos.tiposSangre.map((s) => (
-                      <option key={s} value={s}>
-                        {s}
-                      </option>
-                    ))}
-                  </select>
-                )}
-              </Campo>
-              {esAprendiz ? (
-                <Campo etiqueta="Ficha de formación" ayuda="El programa y la fecha de finalización salen de la ficha" requerido>
+              </div>
+
+              <div className="floating-group">
+                <input ref={entradaFoto} id="foto" type="file" accept="image/jpeg,image/png,image/bmp" onChange={elegirFoto} aria-describedby="ayuda-foto" />
+                <label htmlFor="foto">Foto de Perfil</label>
+                <div className="floating-border" />
+              </div>
+              <p id="ayuda-foto" className="texto-ayuda">
+                Formatos: JPG, PNG o BMP. Máximo 8 MB.
+              </p>
+              {vistaPrevia && (
+                <div className="foto-previa">
+                  <img src={vistaPrevia} alt="Vista previa de la foto nueva" width="120" height="150" />
+                  <button type="button" className="btn-glow" disabled={subiendo} onClick={subirFoto}>
+                    {subiendo ? 'Enviando...' : 'Enviar foto'} <i className="fas fa-upload" aria-hidden="true" />
+                  </button>
+                </div>
+              )}
+
+              <form className="floating-form" onSubmit={guardar} autoComplete="off" noValidate>
+                <Campo etiqueta="Nombres (como van en el carnet)" error={errores.nombres}>
+                  {(p) => <input {...p} name="nombres" maxLength={100} value={datos.nombres} onChange={cambiar} />}
+                </Campo>
+                <Campo etiqueta="Apellidos (como van en el carnet)" error={errores.apellidos}>
+                  {(p) => <input {...p} name="apellidos" maxLength={100} value={datos.apellidos} onChange={cambiar} />}
+                </Campo>
+                <p className="texto-ayuda">Si los dejas vacíos, el carnet reparte tu nombre completo y puede equivocarse con apellidos compuestos.</p>
+
+                <Campo etiqueta="Tipo de documento">
                   {(p) => (
-                    <select {...p} name="fichaId" value={datos.fichaId} onChange={cambiar}>
-                      <option value="">Selecciona tu ficha</option>
-                      {catalogos.fichas.map((f) => (
-                        <option key={f.id} value={f.id}>
-                          {f.numero} - {f.programa}
+                    <select {...p} name="tipoDocumento" value={datos.tipoDocumento} onChange={cambiar}>
+                      {catalogos.tiposDocumento.map((t) => (
+                        <option key={t.codigo} value={t.codigo}>
+                          {t.etiqueta}
                         </option>
                       ))}
                     </select>
                   )}
                 </Campo>
-              ) : (
-                <Campo etiqueta="Programa o área" error={errores.programa}>
-                  {(p) => <input {...p} name="programa" maxLength={100} value={datos.programa} onChange={cambiar} />}
+                <Campo
+                  etiqueta="Número de Documento"
+                  error={errores.documento}
+                  ayuda={`Sin puntos ni espacios.${formato ? ` Debe tener ${formato}.` : ''}`}
+                  requerido
+                >
+                  {(p) => <input {...p} name="documento" inputMode="numeric" maxLength={15} value={datos.documento} onChange={cambiar} />}
                 </Campo>
-              )}
-            </div>
-            <div>
-              <button type="submit" className="boton boton--primario" disabled={guardando}>
-                <Save size={18} aria-hidden="true" />
-                {guardando ? 'Guardando...' : 'Guardar cambios'}
-              </button>
-            </div>
-          </form>
-        </section>
+                <Campo etiqueta="Tipo de Sangre" requerido>
+                  {(p) => (
+                    <select {...p} name="tipoSangre" value={datos.tipoSangre} onChange={cambiar}>
+                      <option value="">-- Selecciona Tipo de Sangre --</option>
+                      {catalogos.tiposSangre.map((s) => (
+                        <option key={s} value={s}>
+                          {s}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                </Campo>
+                {esAprendiz ? (
+                  <Campo etiqueta="Ficha de formación" ayuda="El programa y la fecha de finalización se toman de la ficha." requerido>
+                    {(p) => (
+                      <select {...p} name="fichaId" value={datos.fichaId} onChange={cambiar}>
+                        <option value="">-- Selecciona tu ficha --</option>
+                        {catalogos.fichas.map((f) => (
+                          <option key={f.id} value={f.id}>
+                            {f.numero} - {f.programa}
+                          </option>
+                        ))}
+                      </select>
+                    )}
+                  </Campo>
+                ) : (
+                  <Campo etiqueta="Especialidad / Área" error={errores.programa}>
+                    {(p) => <input {...p} name="programa" maxLength={100} value={datos.programa} onChange={cambiar} />}
+                  </Campo>
+                )}
+
+                <button type="submit" className="btn-glow boton-bloque" disabled={guardando}>
+                  {guardando ? 'Guardando...' : 'Guardar Cambios'} <i className="fas fa-sync" aria-hidden="true" />
+                </button>
+              </form>
+            </section>
+          )}
+        </div>
       </div>
     </div>
   )

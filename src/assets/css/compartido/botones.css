@@ -1,0 +1,201 @@
+/* Botones Premium
+   El texto es blanco en negrita sobre estos botones: #39A900 (verde
+   institucional puro) solo da 3.07:1, y el hover anterior (#45cc00) bajaba
+   a 2.12:1 - insuficiente para texto de 0.85-1rem (se necesita 4.5:1).
+   Los dos tonos de abajo mantienen la identidad verde SENA y pasan AA:
+   #2d8500 = 4.70:1, #256a00 = 6.69:1 sobre blanco. */
+.glass-btn,
+.btn-primary-glass,
+.btn-glow {
+    background: linear-gradient(135deg, #2d8500, #256a00) !important;
+    color: white !important;
+    border: none !important;
+    padding: 14px 28px !important;
+    border-radius: 12px !important;
+    font-weight: 700 !important;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    box-shadow: 0 4px 15px rgba(57, 169, 0, 0.3);
+    text-transform: none;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-glow:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(57, 169, 0, 0.5);
+    background: linear-gradient(135deg, #256a00, #1d5400) !important;
+}
+
+/* Foco visible: sobre fondo verde el azul institucional se pierde, por eso
+   se usa un contorno blanco con un halo azul detras para que resalte igual
+   en claro y oscuro. */
+.glass-btn:focus-visible,
+.btn-primary-glass:focus-visible,
+.btn-glow:focus-visible {
+    outline: 3px solid #ffffff;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 5px rgba(21, 101, 192, 0.6);
+}
+
+/* Estado deshabilitado: antes un boton "disabled" se veia y se comportaba
+   igual que uno activo (mismo color, mismo hover). */
+.glass-btn:disabled,
+.btn-primary-glass:disabled,
+.btn-glow:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    filter: grayscale(0.25);
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.btn-glow::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+    transform: rotate(45deg);
+    transition: 0.5s;
+    opacity: 0;
+}
+
+.btn-glow:hover::after {
+    left: 100%;
+    opacity: 1;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--glass-border);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 12px;
+    transition: var(--transition);
+}
+
+.btn-outline:hover {
+    background: var(--glass-border);
+    border-color: var(--glass-subtext);
+}
+
+.btn-outline:focus-visible {
+    outline: 3px solid #1565C0;
+    outline-offset: 2px;
+}
+
+.btn-outline:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* #CBD5E0 sobre blanco daba 1.49:1 (practicamente invisible). #5A6B7D pasa
+   5.48:1 en claro; en oscuro se aclara a #90A4AE (5.85:1 sobre la tarjeta
+   oscura #1e272e) porque el gris oscuro original desaparecia igual. */
+.back-link-premium {
+    color: #5A6B7D !important;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+}
+
+[data-theme="dark"] .back-link-premium {
+    color: #90A4AE !important;
+}
+
+.back-link-premium:hover {
+    color: #256a00 !important;
+    background: rgba(57, 169, 0, 0.05);
+    transform: translateX(-5px);
+}
+
+[data-theme="dark"] .back-link-premium:hover {
+    color: #4cd137 !important;
+}
+
+.back-link-premium:focus-visible {
+    outline: 3px solid #1565C0;
+    outline-offset: 2px;
+}
+
+/* Botones de Acción en Tablas */
+.action-btn-glass {
+    border: none !important;
+    padding: 8px 14px !important;
+    border-radius: 8px !important;
+    color: white !important;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-weight: 600 !important;
+    font-size: 0.85rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+}
+
+.action-btn-glass i { font-size: 0.9rem; }
+
+.action-btn-glass:focus-visible {
+    outline: 3px solid #1565C0;
+    outline-offset: 2px;
+}
+
+.action-btn-glass:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* Texto blanco en negrita: #3498db (3.15:1) y #2980b9 (4.30:1) no llegaban
+   a 4.5:1. Se oscurecen ambos extremos del degradado manteniendo el mismo
+   azul de "editar". */
+.action-btn-edit {
+    background: linear-gradient(135deg, #1f618d, #154360) !important;
+    box-shadow: 0 4px 15px rgba(31, 97, 141, 0.3);
+}
+
+.action-btn-edit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(31, 97, 141, 0.4);
+    background: linear-gradient(135deg, #154360, #0b2b42) !important;
+}
+
+/* Mismo problema con el rojo de "eliminar": #e74c3c solo. */
+.action-btn-delete {
+    background: linear-gradient(135deg, #c0392b, #a93226) !important;
+    box-shadow: 0 4px 15px rgba(192, 57, 43, 0.3);
+}
+
+.action-btn-delete:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(192, 57, 43, 0.4);
+    background: linear-gradient(135deg, #a93226, #7b241c) !important;
+}
+
+.action-cells {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
