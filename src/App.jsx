@@ -2,8 +2,14 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import MainLayout from './components/layout/MainLayout'
 import RutaProtegida from './components/layout/RutaProtegida'
 import FondoParticulas from './components/ui/FondoParticulas'
+import AmbienteDetallePage from './pages/AmbienteDetallePage'
+import AmbientesPage from './pages/AmbientesPage'
+import AsistenciaPage from './pages/AsistenciaPage'
 import CambioContrasenaPage from './pages/CambioContrasenaPage'
+import ComunicadosPage from './pages/ComunicadosPage'
 import EscanerPage from './pages/EscanerPage'
+import FichasPage from './pages/FichasPage'
+import HistorialClasesPage from './pages/HistorialClasesPage'
 import HistorialPage from './pages/HistorialPage'
 import LoginPage from './pages/LoginPage'
 import NoEncontradaPage from './pages/NoEncontradaPage'
@@ -35,6 +41,16 @@ export default function App() {
             <Route element={<RutaProtegida permiso="admin" />}>
               <Route path="/admin/usuarios" element={<UsuariosPage />} />
               <Route path="/admin/fotos" element={<RevisionFotosPage />} />
+              <Route path="/admin/fichas" element={<FichasPage />} />
+              <Route path="/admin/clases" element={<HistorialClasesPage />} />
+            </Route>
+            <Route element={<RutaProtegida permiso="gestionarAsistencia" />}>
+              <Route path="/asistencia" element={<AsistenciaPage />} />
+              <Route path="/comunicados" element={<ComunicadosPage />} />
+            </Route>
+            <Route element={<RutaProtegida permiso="verAmbientes" />}>
+              <Route path="/ambientes" element={<AmbientesPage />} />
+              <Route path="/ambientes/:ficha" element={<AmbienteDetallePage />} />
             </Route>
             <Route path="*" element={<NoEncontradaPage />} />
           </Route>

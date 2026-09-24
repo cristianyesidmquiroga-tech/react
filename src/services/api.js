@@ -139,3 +139,26 @@ export const panelService = {
 export const historialService = {
   consultar: (filtros, signal) => peticion(`/historial${consulta(filtros)}`, { signal }),
 }
+
+export const fichaService = {
+  listar: (signal) => peticion('/admin/fichas', { signal }),
+  crear: (datos) => peticion('/admin/fichas', { metodo: 'POST', cuerpo: datos }),
+  editar: (id, datos) => peticion(`/admin/fichas/${id}`, { metodo: 'PUT', cuerpo: datos }),
+  archivar: (id) => peticion(`/admin/fichas/${id}/archivar`, { metodo: 'PATCH' }),
+}
+
+export const asistenciaService = {
+  buscar: (ficha, signal) => peticion(`/asistencia${consulta({ ficha })}`, { signal }),
+  guardar: (ficha, presentes) => peticion('/asistencia', { metodo: 'POST', cuerpo: { ficha, presentes } }),
+  historialClases: (ficha, signal) => peticion(`/admin/clases${consulta({ ficha })}`, { signal }),
+}
+
+export const ambienteService = {
+  listar: (signal) => peticion('/ambientes', { signal }),
+  detalle: (ficha, signal) => peticion(`/ambientes/${encodeURIComponent(ficha)}`, { signal }),
+}
+
+export const comunicadoService = {
+  obtener: (signal) => peticion('/comunicados', { signal }),
+  enviar: (datos) => peticion('/comunicados', { metodo: 'POST', cuerpo: datos }),
+}

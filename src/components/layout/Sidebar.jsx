@@ -9,7 +9,15 @@ const ENLACES = [
   { a: '/porteria/escaner', texto: 'Escáner', icono: 'fa-barcode', permiso: 'operarPorteria' },
   { a: '/porteria/pases', texto: 'Pases Manuales', icono: 'fa-ticket-alt', permiso: 'operarPorteria' },
   { a: '/admin/usuarios', texto: 'Gestión Perfiles', icono: 'fa-users-cog', permiso: 'admin' },
+  { a: '/admin/fichas', texto: 'Fichas de Formación', icono: 'fa-layer-group', permiso: 'admin' },
   { a: '/admin/fotos', texto: 'Revisar Fotos', icono: 'fa-user-check', permiso: 'admin' },
+]
+// Van después del menú de reportes, como en Portería 2
+const ENLACES_FORMACION = [
+  { a: '/admin/clases', texto: 'Historial Clases', icono: 'fa-tasks', permiso: 'admin' },
+  { a: '/asistencia', texto: 'Mi Ficha', icono: 'fa-users', permiso: 'gestionarAsistencia' },
+  { a: '/comunicados', texto: 'Comunicados', icono: 'fa-bullhorn', permiso: 'gestionarAsistencia' },
+  { a: '/ambientes', texto: 'Ambientes', icono: 'fa-chalkboard-teacher', permiso: 'verAmbientes' },
 ]
 const REPORTES = [
   ['Aprendiz', 'Aprendices'],
@@ -23,8 +31,17 @@ export default function Sidebar({ abierto, onCerrar }) {
   const permisos = usuario?.permisos || {}
   const enReportes = pathname.startsWith('/porteria/reportes/')
   const [reportesAbierto, setReportesAbierto] = useState(enReportes)
-  const visibles = ENLACES.filter((e) => permisos[e.permiso])
   const consultaTerceros = permisos.operarPorteria || permisos.gestionarAsistencia
+  // Como en Portería 2: el cargo Administrador ve los reportes aunque no sea admin
+  const veReportes = permisos.admin || usuario?.cargo === 'Administrador'
+  const enlaces = (lista) =>
+    lista
+      .filter((e) => permisos[e.permiso])
+      .map(({ a, texto, icono }) => (
+        <NavLink key={a} to={a} className="stagger-item" onClick={onCerrar}>
+          <i className={`fas ${icono}`} aria-hidden="true" /> <span>{texto}</span>
+        </NavLink>
+      ))
 
   return (
     <aside id="sidebar-main" className={`sidebar${abierto ? ' active' : ''}`} aria-label="Menú principal">
@@ -36,12 +53,8 @@ export default function Sidebar({ abierto, onCerrar }) {
         <p className="highlight-rainbow">Centro de formación SENA</p>
       </div>
       <nav className="sidebar-nav">
-        {visibles.map(({ a, texto, icono }) => (
-          <NavLink key={a} to={a} className="stagger-item" onClick={onCerrar}>
-            <i className={`fas ${icono}`} aria-hidden="true" /> <span>{texto}</span>
-          </NavLink>
-        ))}
-        {permisos.admin && (
+        {enlaces(ENLACES)}
+        {veReportes && (
           <div className={`sidebar-dropdown stagger-item${reportesAbierto ? ' open' : ''}`}>
             <button
               type="button"
@@ -61,6 +74,7 @@ export default function Sidebar({ abierto, onCerrar }) {
             </div>
           </div>
         )}
+        {enlaces(ENLACES_FORMACION)}
         <NavLink to="/perfil" className="stagger-item" onClick={onCerrar}>
           <i className="fas fa-id-card" aria-hidden="true" /> <span>Mi Perfil</span>
         </NavLink>
