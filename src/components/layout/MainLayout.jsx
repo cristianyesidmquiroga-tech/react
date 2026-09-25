@@ -14,6 +14,23 @@ const TITULOS = {
   '/perfil': 'Mi Perfil',
   '/admin/usuarios': 'Gestión de Perfiles',
   '/admin/fotos': 'Revisión de Fotos',
+  '/admin/fichas': 'Fichas de Formación - SENA',
+  '/admin/clases': 'Historial Clases',
+  '/asistencia': 'Control de Asistencia - Instructor',
+  '/comunicados': 'Comunicados - SENA',
+  '/ambientes': 'Panel de Ambientes',
+  '/mensajes': 'Mensajes',
+  '/bandeja': 'Bandeja de mensajes',
+  '/ayuda': 'Centro de ayuda',
+  '/tutorial': 'Tutorial de primeros pasos',
+}
+
+function titulo(pathname) {
+  if (TITULOS[pathname]) return TITULOS[pathname]
+  if (pathname.startsWith('/porteria/reportes/')) return 'Reporte de Usuarios'
+  if (pathname.startsWith('/ambientes/')) return `Ambiente – Ficha ${decodeURIComponent(pathname.split('/')[2])}`
+  if (pathname.startsWith('/bandeja/')) return 'Mensajes'
+  return 'Portería SENA'
 }
 
 export default function MainLayout() {
@@ -50,7 +67,7 @@ export default function MainLayout() {
       <div className={`sidebar-overlay${menuAbierto ? ' active' : ''}`} onClick={() => setMenuAbierto(false)} aria-hidden="true" />
       <Sidebar abierto={menuAbierto} onCerrar={() => setMenuAbierto(false)} />
       <div className="main-wrapper">
-        <Navbar titulo={TITULOS[pathname] || (pathname.startsWith('/porteria/reportes/') ? 'Reporte de Usuarios' : 'Portería SENA')} menuAbierto={menuAbierto} onAbrirMenu={() => setMenuAbierto(true)} />
+        <Navbar titulo={titulo(pathname)} menuAbierto={menuAbierto} onAbrirMenu={() => setMenuAbierto(true)} />
         <main id="contenido" ref={contenido} className="content-area animate-in" tabIndex={-1}>
           {usuario && !usuario.perfilCompleto && pathname !== '/perfil' && (
             <div className="aviso-sistema aviso-sistema--peligro">
@@ -61,6 +78,10 @@ export default function MainLayout() {
                   Para activar tu código de barras de acceso y utilizar el sistema correctamente, debes{' '}
                   <Link to="/perfil">completar todos los campos obligatorios de tu perfil</Link>.
                 </p>
+                {/* Solo mientras el perfil esté incompleto: después ya no hace falta la guía */}
+                <Link to="/tutorial" className="boton-tutorial">
+                  <i className="fas fa-map-signs" aria-hidden="true" /> Ver tutorial de primeros pasos
+                </Link>
               </div>
             </div>
           )}

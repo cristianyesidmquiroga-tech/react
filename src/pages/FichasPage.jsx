@@ -183,7 +183,7 @@ export default function FichasPage() {
                         <i className="fas fa-pen" aria-hidden="true" /> Editar
                       </button>
                       <button type="button" className="boton-ficha-mini" disabled={ocupado} onClick={() => archivar(f)}>
-                        <i className="fas fa-box-archive" aria-hidden="true" /> {f.activa ? 'Archivar' : 'Reactivar'}
+                        <i className="fas fa-archive" aria-hidden="true" /> {f.activa ? 'Archivar' : 'Reactivar'}
                       </button>
                     </td>
                   </tr>

@@ -957,3 +957,98 @@ a.glass-btn {
 @media (max-width: 900px) {
     .comunicado-manual { grid-template-columns: 1fr; }
 }
+
+/* Soporte: mensajes, bandeja, centro de ayuda y tutorial */
+.aviso-sistema--peligro a.boton-tutorial { display: inline-flex; align-items: center; gap: 7px; margin-top: 0.7rem; background: #2d8500; color: #fff; text-decoration: none; font-weight: 700; font-size: 0.87rem; padding: 0.5rem 1rem; border-radius: 8px; }
+.aviso-sistema--peligro a.boton-tutorial:hover { filter: brightness(1.08); }
+.aviso-sistema--peligro a.boton-tutorial:focus-visible { outline: 3px solid #1565C0; outline-offset: 2px; }
+.contador-menu { margin-left: auto; background: #c0392b; color: #fff; font-size: 0.72rem; font-weight: 700; padding: 1px 8px; border-radius: 10px; }
+
+.cabecera-mensajes { padding: 1.6rem; border-radius: 16px; margin-bottom: 1.25rem; }
+.cabecera-mensajes h1 { margin: 0 0 0.4rem; font-size: 1.4rem; display: flex; align-items: center; gap: 10px; }
+.cabecera-mensajes h1 i { color: #39A900; }
+.cabecera-mensajes p { margin: 0; color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
+.volver-bandeja { margin-top: 0.75rem !important; }
+.volver-bandeja a, .contacto-asesor p a { color: #2d8500; }
+.tarjeta-mensajes { padding: 1.5rem; border-radius: 16px; }
+.sin-mensajes { text-align: center; color: var(--text-muted); padding: 2rem 0; }
+.hilo { display: flex; flex-direction: column; gap: 0.9rem; max-height: 55vh; overflow-y: auto; padding: 0.25rem; }
+.burbuja { max-width: 78%; padding: 0.8rem 1rem; border-radius: 14px; font-size: 0.92rem; line-height: 1.55; white-space: pre-wrap; word-break: break-word; }
+.burbuja .firma { display: block; font-size: 0.74rem; opacity: 0.85; margin-top: 0.45rem; }
+.burbuja.mio { align-self: flex-end; background: #2d8500; color: #fff; border-bottom-right-radius: 4px; }
+.burbuja.otro { align-self: flex-start; background: var(--white, #fff); border: 1px solid var(--glass-border); color: var(--text-main); border-bottom-left-radius: 4px; }
+.burbuja.automatico { align-self: center; max-width: 92%; background: rgba(21, 101, 192, 0.08); border: 1px solid rgba(21, 101, 192, 0.25); color: var(--text-main); font-size: 0.87rem; }
+[data-theme="dark"] .burbuja.otro { background: rgba(255, 255, 255, 0.06); }
+.separador-mensajes { border: none; border-top: 1px solid var(--glass-border); margin: 1.4rem 0; }
+.rotulo-mensaje-chat, .contacto-asesor label { display: block; font-weight: 600; font-size: 0.88rem; margin-bottom: 0.45rem; }
+.campo-mensaje-chat, .contacto-asesor textarea, .contacto-asesor select { width: 100%; padding: 0.75rem; border-radius: 10px; resize: vertical; border: 1px solid var(--glass-border); background: var(--glass); color: var(--text-main); font-family: inherit; }
+.contacto-asesor select { margin-bottom: 1.1rem; resize: none; }
+.acciones-mensaje { margin-top: 0.75rem; text-align: right; }
+.btn-enviar { display: inline-flex; align-items: center; gap: 8px; background: #2d8500; color: #fff; border: none; border-radius: 10px; padding: 0.7rem 1.4rem; font-weight: 700; cursor: pointer; text-decoration: none; font-size: 0.95rem; }
+.btn-enviar:hover { filter: brightness(1.08); }
+.btn-enviar:active { transform: translateY(1px); }
+.btn-enviar:focus-visible { outline: 3px solid #1565C0; outline-offset: 2px; }
+.btn-enviar:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.bandeja-vacia { padding: 3rem 2rem; text-align: center; border-radius: 16px; }
+.bandeja-vacia > i { font-size: 3rem; color: var(--text-muted); opacity: 0.4; }
+.bandeja-vacia h2 { margin: 1.25rem 0 0.5rem; font-size: 1.1rem; }
+.bandeja-vacia p { color: var(--text-muted); margin: 0; }
+.lista-hilos { display: flex; flex-direction: column; gap: 0.85rem; }
+.hilo-fila { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.2rem; border-radius: 14px; text-decoration: none; color: inherit; }
+.hilo-fila:focus-visible { outline: 3px solid var(--primary-color); outline-offset: 2px; }
+.hilo-fila--pendiente { border-left: 4px solid #e74c3c; }
+.hilo-fila__foto { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+.hilo-fila__datos { flex: 1; min-width: 0; }
+.hilo-fila__nombre { margin: 0; font-weight: 700; }
+.hilo-fila__detalle { margin: 0.15rem 0 0; font-size: 0.82rem; color: var(--text-muted); }
+.hilo-fila__ultimo { margin: 0.35rem 0 0; font-size: 0.85rem; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hilo-fila__fecha { font-size: 0.76rem; color: var(--text-muted); flex-shrink: 0; }
+.insignia-sin-leer { background: #c0392b; color: #fff; font-size: 0.7rem; font-weight: 700; padding: 1px 8px; border-radius: 10px; margin-left: 6px; }
+
+.categoria-ayuda { padding: 1.4rem 1.5rem; border-radius: 16px; margin-bottom: 1.1rem; }
+.categoria-ayuda > h2 { margin: 0 0 1rem; font-size: 1.05rem; color: #2d8500; }
+.pregunta { border: 1px solid var(--glass-border); border-radius: 12px; margin-bottom: 0.7rem; overflow: hidden; }
+.pregunta > summary { cursor: pointer; padding: 0.95rem 1.1rem; font-weight: 600; font-size: 0.94rem; list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.pregunta > summary::-webkit-details-marker { display: none; }
+.pregunta > summary::after { content: '+'; font-size: 1.3rem; font-weight: 400; color: #2d8500; flex-shrink: 0; }
+.pregunta[open] > summary::after { content: '\2212'; }
+.pregunta > summary:focus-visible { outline: 3px solid #1565C0; outline-offset: -3px; }
+.respuesta { padding: 0 1.1rem 1.1rem; font-size: 0.91rem; line-height: 1.65; color: var(--text-muted); }
+.contacto-asesor { padding: 1.75rem; border-radius: 16px; margin-top: 1.75rem; border-left: 4px solid #39A900; }
+.contacto-asesor h2 { margin: 0 0 0.5rem; font-size: 1.15rem; display: flex; align-items: center; gap: 10px; }
+.contacto-asesor h2 i { color: #39A900; }
+.contacto-asesor > p { margin: 0 0 1.35rem; color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
+.relanzar-tutorial { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; }
+.relanzar-tutorial > p { margin: 0; max-width: 32rem; }
+
+.tut-paso-card { display: flex; gap: 1.1rem; align-items: flex-start; }
+.tut-paso-num { flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%; background: rgba(57, 169, 0, 0.12); color: #2d8500; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; }
+.tut-paso-titulo { margin: 0 0 0.45rem; font-size: 1.05rem; }
+.tut-paso-texto { margin: 0; font-size: 0.91rem; line-height: 1.65; color: var(--text-muted); }
+.tut-ejemplo { margin-top: 0.8rem; padding: 0.85rem 1rem; border-radius: 10px; background: rgba(57, 169, 0, 0.06); border-left: 3px solid #39A900; font-size: 0.88rem; line-height: 1.6; color: var(--text-main); }
+.tut-ejemplo strong { color: #2d8500; }
+
+/* Recorrido guiado: la sombra gigante del recuadro oscurece todo lo demás */
+.tut-resaltado { position: fixed; z-index: 10000; border-radius: 12px; box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.62); pointer-events: none; border: 2px solid #39A900; }
+.tut-resaltado--centro { top: 50%; left: 50%; width: 1px; height: 1px; border: none; }
+.tut-resaltado.tut-anim { transition: top 0.25s ease, left 0.25s ease, width 0.25s ease, height 0.25s ease; }
+.tut-globo { position: fixed; z-index: 10001; max-width: 340px; width: calc(100vw - 32px); background: #fff; color: #1c2733; border-radius: 14px; padding: 1.1rem 1.25rem; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35); }
+[data-theme="dark"] .tut-globo { background: #1e2a36; color: #eef3f7; }
+.tut-globo h2 { margin: 0 0 0.5rem; font-size: 1.02rem; color: #2d8500; }
+[data-theme="dark"] .tut-globo h2 { color: #6fdc6f; }
+.tut-globo p { margin: 0 0 1rem; font-size: 0.9rem; line-height: 1.55; }
+.tut-globo .tut-enlace { font-size: 0.82rem; margin-top: -0.4rem; }
+.tut-globo a { color: #2d8500; font-weight: 600; }
+.tut-progreso { font-size: 0.75rem; opacity: 0.75; margin-bottom: 0.35rem; }
+.tut-acciones { display: flex; gap: 0.5rem; justify-content: flex-end; flex-wrap: wrap; }
+.tut-btn { border: none; border-radius: 8px; padding: 0.5rem 0.9rem; font-size: 0.85rem; font-weight: 600; cursor: pointer; font-family: inherit; }
+.tut-btn-primario { background: #2d8500; color: #fff; }
+.tut-btn-secundario { background: transparent; color: inherit; border: 1px solid rgba(128, 128, 128, 0.45); }
+.tut-btn:hover { filter: brightness(1.08); }
+.tut-btn:active { transform: translateY(1px); }
+.tut-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.tut-btn:focus-visible, .tut-globo a:focus-visible { outline: 3px solid #39A900; outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) {
+    .tut-resaltado.tut-anim { transition: none; }
+}

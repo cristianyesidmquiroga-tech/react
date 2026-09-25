@@ -1,5 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import CarnetDigital from '../components/CarnetDigital'
+import RecorridoGuiado from '../components/RecorridoGuiado'
 import { ListaEquipos, NuevoEquipo } from '../components/MisEquipos'
 import Campo from '../components/ui/Campo'
 import Insignia from '../components/ui/Insignia'
@@ -7,7 +9,7 @@ import Skeleton from '../components/ui/Skeleton'
 import { useAuth } from '../context/AuthContext'
 import { useNotificacion } from '../context/NotificationContext'
 import { useFotoProtegida } from '../hooks/useFotoProtegida'
-import { catalogoService, perfilService } from '../services/api'
+import { ayudaService, catalogoService, perfilService } from '../services/api'
 import logoSena from '../assets/img/logoSena.png'
 
 const ESTADOS_FOTO = {
@@ -47,6 +49,27 @@ export default function PerfilPage() {
   const [seccion, setSeccion] = useState(null)
   const entradaFoto = useRef(null)
   const fotoUrl = useFotoProtegida(perfil?.tieneFoto ? perfil.id : null, versionFoto)
+  const [params, setParams] = useSearchParams()
+  const [recorrido, setRecorrido] = useState(false)
+  const [recorridoMostrado, setRecorridoMostrado] = useState(false)
+  const listo = Boolean(perfil && datos && catalogos)
+  const pideRecorrido = params.get('tutorial') === '1' || usuario?.tutorialVisto === false
+
+  // Se lanza solo la primera vez o con ?tutorial=1; la espera deja terminar las animaciones de entrada
+  useEffect(() => {
+    if (!listo || !pideRecorrido || recorridoMostrado) return undefined
+    const espera = setTimeout(() => {
+      setRecorridoMostrado(true)
+      setRecorrido(true)
+    }, 450)
+    return () => clearTimeout(espera)
+  }, [listo, pideRecorrido, recorridoMostrado])
+
+  const terminarRecorrido = useCallback(() => {
+    setRecorrido(false)
+    setParams({}, { replace: true })
+    ayudaService.completarTutorial().then(refrescarUsuario).catch(() => {})
+  }, [setParams, refrescarUsuario])
 
   const cargar = async () => {
     const [p, c] = await Promise.all([perfilService.obtener(), perfilService.carnet()])
@@ -135,6 +158,7 @@ export default function PerfilPage() {
 
   return (
     <div className="profile-container">
+      {recorrido && <RecorridoGuiado onTerminar={terminarRecorrido} />}
       <div className="profile-quick-actions">
         <button
           type="button"

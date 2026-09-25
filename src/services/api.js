@@ -162,3 +162,19 @@ export const comunicadoService = {
   obtener: (signal) => peticion('/comunicados', { signal }),
   enviar: (datos) => peticion('/comunicados', { metodo: 'POST', cuerpo: datos }),
 }
+
+export const mensajeService = {
+  mios: (signal) => peticion('/mensajes', { signal }),
+  enviar: (texto) => peticion('/mensajes', { metodo: 'POST', cuerpo: { texto } }),
+  avisos: (signal) => peticion('/avisos', { signal }),
+  bandeja: (signal) => peticion('/bandeja', { signal }),
+  hilo: (usuarioId, signal) => peticion(`/bandeja/${usuarioId}`, { signal }),
+  responder: (usuarioId, texto) => peticion(`/bandeja/${usuarioId}`, { metodo: 'POST', cuerpo: { texto } }),
+}
+
+export const ayudaService = {
+  obtener: (signal) => peticion('/ayuda', { signal }),
+  contactar: (datos) => peticion('/ayuda/contacto', { metodo: 'POST', cuerpo: datos }),
+  tutorial: (signal) => peticion('/tutorial', { signal }),
+  completarTutorial: () => peticion('/tutorial/completar', { metodo: 'POST' }),
+}
