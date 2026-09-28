@@ -1,7 +1,11 @@
 import { Link } from 'react-router-dom'
 import AuthLayout from '../components/layout/AuthLayout'
+import { useFetch } from '../hooks/useFetch'
+import { authService } from '../services/api'
 
 export default function PoliticaPage() {
+  const { data: entidad } = useFetch((signal) => authService.politica(signal), [])
+
   return (
     <AuthLayout>
       <article className="glass-card politica">
@@ -10,8 +14,8 @@ export default function PoliticaPage() {
 
         <h2>1. Responsable</h2>
         <p>
-          Servicio Nacional de Aprendizaje (SENA), Centro de Gestión Agroempresarial del Oriente, Vélez, Santander. Para ejercer tus derechos escribe
-          al correo institucional del Centro con el asunto «Habeas Data — Sistema de Acceso».
+          {entidad ? `${entidad.entidadLarga} (${entidad.entidad}), ${entidad.centro}, ${entidad.regional}.` : 'Servicio Nacional de Aprendizaje (SENA).'} Para
+          ejercer tus derechos escribe al correo institucional del Centro con el asunto «Habeas Data — Sistema de Acceso».
         </p>
 
         <h2>2. Datos que se recolectan</h2>
