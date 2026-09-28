@@ -11,6 +11,7 @@ import CambioContrasenaPage from './pages/CambioContrasenaPage'
 import ComunicadosPage from './pages/ComunicadosPage'
 import EscanerPage from './pages/EscanerPage'
 import FichasPage from './pages/FichasPage'
+import HistorialCambiosPage from './pages/HistorialCambiosPage'
 import HistorialClasesPage from './pages/HistorialClasesPage'
 import HiloPage from './pages/HiloPage'
 import HistorialPage from './pages/HistorialPage'
@@ -19,11 +20,16 @@ import MensajesPage from './pages/MensajesPage'
 import NoEncontradaPage from './pages/NoEncontradaPage'
 import PanelPage from './pages/PanelPage'
 import PasesPage from './pages/PasesPage'
+import PoliticaPage from './pages/PoliticaPage'
 import PerfilPage from './pages/PerfilPage'
 import ReporteCargoPage from './pages/ReporteCargoPage'
+import RecuperarPage from './pages/RecuperarPage'
+import RegistroPage from './pages/RegistroPage'
+import RespaldosPage from './pages/RespaldosPage'
 import RevisionFotosPage from './pages/RevisionFotosPage'
 import TutorialPage from './pages/TutorialPage'
 import UsuariosPage from './pages/UsuariosPage'
+import VerificarPage from './pages/VerificarPage'
 
 export default function App() {
   return (
@@ -31,6 +37,10 @@ export default function App() {
       <FondoParticulas />
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/registro" element={<RegistroPage />} />
+        <Route path="/recuperar" element={<RecuperarPage />} />
+        <Route path="/politica-privacidad" element={<PoliticaPage />} />
+        <Route path="/verificar" element={<VerificarPage />} />
         <Route element={<RutaProtegida />}>
           <Route path="/cambiar-contrasena" element={<CambioContrasenaPage />} />
           <Route element={<MainLayout />}>
@@ -55,6 +65,8 @@ export default function App() {
               <Route path="/admin/fotos" element={<RevisionFotosPage />} />
               <Route path="/admin/fichas" element={<FichasPage />} />
               <Route path="/admin/clases" element={<HistorialClasesPage />} />
+              <Route path="/admin/historial" element={<HistorialCambiosPage />} />
+              <Route path="/admin/respaldos" element={<RespaldosPage />} />
             </Route>
             <Route element={<RutaProtegida permiso="gestionarAsistencia" />}>
               <Route path="/asistencia" element={<AsistenciaPage />} />

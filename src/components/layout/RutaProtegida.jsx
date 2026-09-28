@@ -21,6 +21,7 @@ export default function RutaProtegida({ permiso }) {
   if (usuario.debeCambiarContrasena && pathname !== '/cambiar-contrasena') {
     return <Navigate to="/cambiar-contrasena" replace />
   }
+  if (usuario.correoVerificado === false && pathname !== '/verificar') return <Navigate to="/verificar" replace />
   if (permiso && !usuario.permisos?.[permiso]) return <Navigate to="/perfil" replace />
   return <Outlet />
 }

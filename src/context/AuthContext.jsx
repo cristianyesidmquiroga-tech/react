@@ -41,6 +41,9 @@ export function AuthProvider({ children }) {
         if (evento.tipo === 'sesion-vencida') {
           cerrarLocal('Tu sesión se cerró por inactividad o porque se ingresó desde otro dispositivo')
         }
+        if (evento.tipo === 'correo-sin-verificar') {
+          setUsuario((u) => (u ? { ...u, correoVerificado: false } : u))
+        }
         if (evento.tipo === 'cambio-contrasena') {
           setUsuario((u) => (u ? { ...u, debeCambiarContrasena: true } : u))
         }
@@ -94,13 +97,17 @@ export function AuthProvider({ children }) {
     [aplicarSesion],
   )
 
+  const verificarCorreo = useCallback(async (codigo) => {
+    setUsuario(await authService.verificarCorreo(codigo))
+  }, [])
+
   const refrescarUsuario = useCallback(async () => {
     setUsuario(await authService.yo())
   }, [])
 
   const valor = useMemo(
-    () => ({ usuario, cargando, aviso, login, logout, cambiarContrasena, refrescarUsuario }),
-    [usuario, cargando, aviso, login, logout, cambiarContrasena, refrescarUsuario],
+    () => ({ usuario, cargando, aviso, login, logout, cambiarContrasena, verificarCorreo, refrescarUsuario }),
+    [usuario, cargando, aviso, login, logout, cambiarContrasena, verificarCorreo, refrescarUsuario],
   )
 
   return <AuthContext.Provider value={valor}>{children}</AuthContext.Provider>

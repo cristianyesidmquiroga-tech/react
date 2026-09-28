@@ -16,6 +16,8 @@ const ENLACES = [
 // Van después del menú de reportes, como en Portería 2
 const ENLACES_FORMACION = [
   { a: '/admin/clases', texto: 'Historial Clases', icono: 'fa-tasks', permiso: 'admin' },
+  { a: '/admin/historial', texto: 'Historial de Cambios', icono: 'fa-history', permiso: 'admin' },
+  { a: '/admin/respaldos', texto: 'Respaldos del Sistema', icono: 'fa-archive', permiso: 'admin' },
   { a: '/asistencia', texto: 'Mi Ficha', icono: 'fa-users', permiso: 'gestionarAsistencia' },
   { a: '/comunicados', texto: 'Comunicados', icono: 'fa-bullhorn', permiso: 'gestionarAsistencia' },
   { a: '/ambientes', texto: 'Ambientes', icono: 'fa-chalkboard-teacher', permiso: 'verAmbientes' },

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { useTilt } from '../../hooks/useTilt'
+import { mensajeService } from '../../services/api'
 import ErrorBoundary from '../ui/ErrorBoundary'
 import Navbar from './Navbar'
 import Sidebar from './Sidebar'
@@ -16,6 +17,8 @@ const TITULOS = {
   '/admin/fotos': 'Revisión de Fotos',
   '/admin/fichas': 'Fichas de Formación - SENA',
   '/admin/clases': 'Historial Clases',
+  '/admin/historial': 'Historial de Cambios',
+  '/admin/respaldos': 'Respaldos del Sistema',
   '/asistencia': 'Control de Asistencia - Instructor',
   '/comunicados': 'Comunicados - SENA',
   '/ambientes': 'Panel de Ambientes',
@@ -38,7 +41,13 @@ export default function MainLayout() {
   const { pathname } = useLocation()
   const { usuario } = useAuth()
   const contenido = useRef(null)
+  const [avisoRespaldo, setAvisoRespaldo] = useState(null)
   useTilt(contenido)
+
+  useEffect(() => {
+    if (!usuario?.permisos?.admin) return
+    mensajeService.avisos().then((a) => setAvisoRespaldo(a.avisoRespaldo)).catch(() => {})
+  }, [usuario, pathname])
 
   useEffect(() => {
     document.body.classList.add('with-sidebar')
@@ -69,6 +78,14 @@ export default function MainLayout() {
       <div className="main-wrapper">
         <Navbar titulo={titulo(pathname)} menuAbierto={menuAbierto} onAbrirMenu={() => setMenuAbierto(true)} />
         <main id="contenido" ref={contenido} className="content-area animate-in" tabIndex={-1}>
+          {avisoRespaldo && (
+            <div className="aviso-sistema aviso-sistema--peligro" role="status">
+              <i className="fas fa-database" aria-hidden="true" />
+              <div>
+                <p>{avisoRespaldo}</p>
+              </div>
+            </div>
+          )}
           {usuario && !usuario.perfilCompleto && pathname !== '/perfil' && (
             <div className="aviso-sistema aviso-sistema--peligro">
               <i className="fas fa-exclamation-circle" aria-hidden="true" />

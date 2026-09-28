@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Navigate, useLocation, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import AuthLayout from '../components/layout/AuthLayout'
 import Campo from '../components/ui/Campo'
 import { useAuth } from '../context/AuthContext'
@@ -34,7 +34,7 @@ export default function LoginPage() {
     setError(null)
     try {
       const u = await login(identificador.trim(), password)
-      navegar(u.debeCambiarContrasena ? '/cambiar-contrasena' : state?.desde || '/perfil', { replace: true })
+      navegar(u.debeCambiarContrasena ? '/cambiar-contrasena' : u.correoVerificado === false ? '/verificar' : state?.desde || '/perfil', { replace: true })
     } catch (err) {
       setError(err.message)
       if (err.bloqueadoSegundos) setBloqueo(err.bloqueadoSegundos)
@@ -127,6 +127,10 @@ export default function LoginPage() {
                   )}
                 </Campo>
 
+                <p className="pie-formulario">
+                  <Link to="/recuperar">¿Olvidaste tu contraseña?</Link>
+                </p>
+
                 <button type="submit" className="glass-btn btn-glow acceso-enviar" disabled={enviando || bloqueo > 0}>
                   {enviando ? (
                     <>
@@ -138,6 +142,9 @@ export default function LoginPage() {
                     </>
                   )}
                 </button>
+                <p className="pie-formulario">
+                  ¿No tienes cuenta? <Link to="/registro">Regístrate aquí</Link>
+                </p>
               </form>
             </div>
           </div>

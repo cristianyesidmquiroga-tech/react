@@ -7,6 +7,7 @@ import Skeleton from '../components/ui/Skeleton'
 import { useAuth } from '../context/AuthContext'
 import { useNotificacion } from '../context/NotificationContext'
 import { useDebounce } from '../hooks/useDebounce'
+import ImportarExcel from '../components/ImportarExcel'
 import { useFetch } from '../hooks/useFetch'
 import { adminService, catalogoService } from '../services/api'
 
@@ -32,6 +33,7 @@ export default function UsuariosPage() {
     catalogoService.obtener().then(setCatalogos).catch((e) => notificar(e.message, 'error'))
   }, [notificar])
 
+  const [importando, setImportando] = useState(false)
   const { data, setData, cargando, error, recargar } = useFetch(
     (signal) => adminService.listarUsuarios({ texto: busqueda, rolId, cargo, page: pagina, size: TAMANO }, signal),
     [busqueda, rolId, cargo, pagina],
@@ -102,6 +104,9 @@ export default function UsuariosPage() {
           <p className="texto-ayuda">{data ? `${data.totalElements} personas registradas` : 'Cargando...'}</p>
         </div>
         <div className="action-buttons">
+          <button type="button" className="glass-btn" onClick={() => setImportando(true)}>
+            <i className="fas fa-file-excel" aria-hidden="true" /> Importar Excel
+          </button>
           <button type="button" className="glass-btn btn-primary" onClick={() => setEditando(null)} disabled={!catalogos}>
             <i className="fas fa-plus" aria-hidden="true" /> Nuevo Perfil
           </button>
@@ -300,6 +305,7 @@ export default function UsuariosPage() {
           </Campo>
         </div>
       </Modal>
+      <ImportarExcel abierto={importando} onCerrar={() => setImportando(false)} onImportado={recargar} />
     </div>
   )
 }

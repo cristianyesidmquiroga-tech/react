@@ -1052,3 +1052,14 @@ a.glass-btn {
 @media (prefers-reduced-motion: reduce) {
     .tut-resaltado.tut-anim { transition: none; }
 }
+
+/* Registro, verificación, recuperación y política */
+.pie-formulario { margin-top: 1rem; text-align: center; color: var(--text-muted); font-size: 0.9rem; }
+.pie-formulario a { color: var(--primary-color); font-weight: 600; }
+.autorizacion-datos { display: flex; align-items: flex-start; gap: 0.75rem; margin: 1rem 0; font-size: 0.88rem; line-height: 1.5; }
+.autorizacion-datos input { width: 20px; height: 20px; margin-top: 2px; flex-shrink: 0; accent-color: #39a900; }
+.autorizacion-datos a { color: var(--primary-color); text-decoration: underline; }
+.captcha-caja { display: flex; align-items: center; gap: 0.6rem; margin: 1rem 0; padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid rgba(0, 0, 0, 0.1); font-size: 0.85rem; color: var(--text-muted); }
+.captcha-caja i { color: #39a900; }
+.politica { max-width: 900px; margin: 2rem auto; padding: 2rem; line-height: 1.7; }
+.politica h2 { font-size: 1.1rem; margin-top: 1.5rem; }

@@ -53,6 +53,7 @@ async function peticion(ruta, { metodo = 'GET', cuerpo, formulario, respuesta = 
     const datos = await res.json().catch(() => ({}))
     if (res.status === 401 && token) avisar({ tipo: 'sesion-vencida' })
     if (res.status === 403 && datos.codigo === 'CAMBIO_CONTRASENA') avisar({ tipo: 'cambio-contrasena' })
+    if (res.status === 403 && datos.codigo === 'CORREO_SIN_VERIFICAR') avisar({ tipo: 'correo-sin-verificar' })
     if (res.status === 429 && !datos.mensaje) datos.mensaje = 'Demasiadas solicitudes, espera un momento'
     throw new ErrorApi(res.status, datos)
   }
@@ -76,6 +77,15 @@ export const authService = {
   renovar: () => peticion('/auth/renovar', { metodo: 'POST' }),
   yo: () => peticion('/auth/yo'),
   cambiarContrasena: (datos) => peticion('/auth/cambiar-contrasena', { metodo: 'POST', cuerpo: datos }),
+  captcha: (signal) => peticion('/auth/captcha', { signal }),
+  registrar: (datos) => peticion('/auth/registro', { metodo: 'POST', cuerpo: datos }),
+  verificarCorreo: (codigo) => peticion('/auth/verificacion', { metodo: 'POST', cuerpo: { codigo } }),
+  reenviarCodigo: () => peticion('/auth/verificacion/reenviar', { metodo: 'POST' }),
+  pedirRecuperacion: (correo, captcha) => peticion('/auth/recuperacion', { metodo: 'POST', cuerpo: { correo, captcha } }),
+  verificarRecuperacion: (correo, codigo) =>
+    peticion('/auth/recuperacion/verificar', { metodo: 'POST', cuerpo: { correo, codigo } }),
+  cambiarRecuperacion: (datos) => peticion('/auth/recuperacion/cambiar', { metodo: 'POST', cuerpo: datos }),
+  politica: (signal) => peticion('/politica-privacidad', { signal }),
 }
 
 export const perfilService = {
@@ -103,6 +113,14 @@ export const adminService = {
     peticion(`/admin/usuarios/${id}`, { metodo: 'DELETE', cuerpo: autorizacion }),
   desbloquear: (id) => peticion(`/admin/usuarios/${id}/desbloquear`, { metodo: 'POST' }),
   fotos: ({ estado, pagina }, signal) => peticion(`/admin/fotos${consulta({ estado, pagina })}`, { signal }),
+  auditoria: (pagina, signal) => peticion(`/admin/auditoria${consulta({ pagina })}`, { signal }),
+  respaldos: (signal) => peticion('/admin/respaldos', { signal }),
+  descargarRespaldo: (archivo) => peticion(`/admin/respaldos/${encodeURIComponent(archivo)}`, { respuesta: 'blob' }),
+  importarUsuarios: (archivo) => {
+    const formulario = new FormData()
+    formulario.append('archivo', archivo)
+    return peticion('/admin/usuarios/importar', { metodo: 'POST', formulario })
+  },
   revisarFoto: (usuarioId, aprobada, motivo) =>
     peticion(`/admin/fotos/${usuarioId}/revision`, { metodo: 'POST', cuerpo: { aprobada, motivo } }),
 }
