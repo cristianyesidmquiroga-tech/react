@@ -27,16 +27,31 @@ src/
 ├── components/
 │   ├── ui/          Modal, Toast, Skeleton, Campo, Insignia, ErrorBoundary
 │   ├── layout/      MainLayout, Navbar, Sidebar, RutaProtegida
-│   ├── CarnetDigital.jsx
-│   └── UsuarioForm.jsx
+│   ├── CarnetDigital.jsx, Conversacion.jsx, RecorridoGuiado.jsx
+│   └── ImportarExcel.jsx, MisEquipos.jsx, UsuarioForm.jsx
 ├── context/         AuthContext, NotificationContext, ThemeContext
-├── hooks/           useFetch, useDebounce, useFotoProtegida
-├── pages/           Login, cambio de contraseña, perfil, usuarios, revisión de fotos
+├── hooks/           useFetch, useDebounce, useCaptcha, useFotoProtegida
+├── pages/           una por pantalla (ver tabla de rutas)
 ├── services/        api.js (cliente HTTP hacia Spring Boot)
 ├── App.jsx          rutas
 ├── main.jsx         punto de montaje
 └── index.css        tokens de diseño y estilos base
 ```
+
+## Rutas
+
+| Ruta | Quién | Pantalla |
+|---|---|---|
+| /login, /registro, /recuperar, /politica-privacidad | público | acceso y política de datos |
+| /verificar | sesión con correo sin verificar | código de 6 dígitos |
+| /cambiar-contrasena | contraseña temporal | cambio obligatorio |
+| /perfil, /historial, /mensajes, /ayuda, /tutorial | con sesión | cuenta y soporte |
+| /porteria/* | portería | panel, escáner, pases y reportes |
+| /asistencia, /comunicados | instructores y admin | formación |
+| /ambientes | coordinación, subdirección y admin | ambientes |
+| /bandeja | asesores | mensajes de los usuarios |
+| /admin/usuarios, /fotos, /fichas, /clases | admin | gestión |
+| /admin/historial, /admin/respaldos | admin | auditoría y respaldos mensuales |
 
 ## Cómo funciona la sesión
 
@@ -44,6 +59,8 @@ src/
 - Mientras la persona está activa el token se renueva antes de vencer. Si la API responde 401
   (sesión vencida o iniciada en otro equipo) se vuelve al login.
 - Con contraseña temporal la única pantalla disponible es la de cambiarla.
+- Con el correo sin verificar la API responde 403 y la app manda a /verificar. El registro inicia sesión solo y lleva allí.
+- El registro y la recuperación piden una prueba anti-bot (SHA-256 en el navegador, sin servicios de terceros) cuando la API la tiene activa.
 - El menú y las rutas se muestran según los permisos que envía la API; la API vuelve a validar cada petición.
 
 ## Accesibilidad y diseño
