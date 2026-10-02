@@ -1,5 +1,33 @@
 # Portería SENA - Frontend (React)
 
+<details>
+<summary><b>Read this in English</b></summary>
+
+Single-page app for the access control system, built with React 19 and Vite. It consumes the REST API in [`spring`](https://github.com/cristianyesidmquiroga-tech/spring).
+
+**Highlights**
+- Protected routes and navigation that follow the permissions sent by the API.
+- JWT session with automatic renewal while the user is active.
+- Digital ID card, QR / barcode scanner view for the gate, passes and reports, class attendance, messaging, bulk Excel import and a guided tour.
+- Self-hosted anti-bot challenge (SHA-256 in the browser, no third-party service).
+- Mobile first, light and dark themes with AA-checked contrast, accessible modals.
+
+**Quick start**
+
+```bash
+git clone https://github.com/cristianyesidmquiroga-tech/react.git
+cd react
+npm install
+cp .env.example .env     # Windows: copy .env.example .env
+npm run dev
+```
+
+Open http://localhost:5173. In development Vite proxies `/api` to the Spring Boot API on `localhost:31026`.
+
+The full documentation, in Spanish, follows below.
+
+</details>
+
 Aplicación de una sola página del sistema de control de acceso, hecha con React 19 y Vite. Consume la API REST del repositorio [`spring`](https://github.com/cristianyesidmquiroga-tech/spring).
 
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
