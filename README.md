@@ -1,40 +1,19 @@
-# Access Control Frontend (React)
+# Portería SENA - Frontend (React)
 
-Single-page app for the access control system, built with React 19 and Vite. It consumes the REST API in [`spring`](https://github.com/cristianyesidmquiroga-tech/spring).
+Aplicación de una sola página del sistema de control de acceso, hecha con React 19 y Vite. Consume la API REST del repositorio [`spring`](https://github.com/cristianyesidmquiroga-tech/spring).
 
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)
 
-## Highlights
+## En resumen
 
-- Protected routes and navigation that follow the permissions sent by the API (the API validates every request again).
-- JWT session with automatic renewal while the user is active, and a clean return to login when the session expires.
-- Digital ID card, QR/barcode scanner view for the gate, passes and reports, class attendance, messaging, bulk Excel import and a guided tour.
-- Self-hosted anti-bot challenge (SHA-256 in the browser, no third-party service).
-- Mobile first: the sidebar becomes a drawer and tables turn into cards. Light and dark themes with AA-checked contrast.
-- Accessible modals (focus trap, Escape to close, inert page behind) and labeled fields with length limits.
-- Structure: components (`ui`, `layout`), context, hooks, pages and services, with design tokens in `index.css`.
-
-## Quick start
-
-```bash
-git clone https://github.com/cristianyesidmquiroga-tech/react.git
-cd react
-npm install
-cp .env.example .env     # Windows: copy .env.example .env
-npm run dev
-```
-
-Open http://localhost:5173. In development Vite proxies `/api` to the Spring Boot API on `localhost:31026`, so there are no CORS issues.
-
-The full documentation, in Spanish, follows.
-
----
-
-# Portería SENA - Frontend
-
-Interfaz en React 19 del sistema de control de acceso del centro. Consume la API del repositorio
-`spring` y sigue la estructura de la guía de React (componentes, contextos, hooks, páginas y servicios).
+- Rutas protegidas y navegación según los permisos que envía la API (la API vuelve a validar cada petición).
+- Sesión con JWT que se renueva mientras la persona está activa y vuelve al login cuando vence.
+- Carnet digital, escáner de QR y códigos de barras para la portería, pases y reportes, asistencia a clase, mensajería, importación masiva desde Excel y recorrido guiado.
+- Desafío anti-bot propio (SHA-256 en el navegador, sin servicios de terceros).
+- Móvil primero: el menú lateral pasa a cajón y las tablas a tarjetas. Tema claro y oscuro con contraste AA.
+- Modales accesibles (foco atrapado, cierre con Escape, resto de la página inerte) y campos con etiqueta y límite de caracteres.
+- Estructura por componentes (`ui`, `layout`), contextos, hooks, páginas y servicios, con tokens de diseño en `index.css`.
 
 ## Qué se necesita
 
